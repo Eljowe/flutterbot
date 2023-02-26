@@ -1,0 +1,80 @@
+name: kidebot
+description: A new Flutter project.
+
+
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=2.19.2 <3.0.0'
+  flutter: ">=3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_hooks: ^0.18.0
+  hooks_riverpod: ^2.2.0
+  shared_preferences: ^2.0.18
+  window_size:
+    git:
+      url: https://github.com/google/flutter-desktop-embedding
+      path: plugins/window_size
+
+
+  cupertino_icons: ^1.0.2
+  go_router: ^6.0.7
+  google_fonts: ^4.0.3
+  circular_countdown_timer: ^0.2.3
+  url_launcher: ^6.1.10
+  permission_handler: ^10.2.0
+  desktop_window: ^0.4.0
+  flutter_launcher_icons: ^0.12.0
+  async: ^2.10.0
+
+flutter_icons:
+  image_path_android: "./assets/images/KBicon.png"
+  image_path_ios: "./assets/images/KBicon.png"
+  android: true # can specify file name here e.g. "ic_launcher"
+  ios: true # can specify file name here e.g. "My-Launcher-Icon"
+  adaptive_icon_background: "./assets/images/KBicon.png" # only available for Android 8.0 devices and above
+  adaptive_icon_foreground: "./assets/images/KBicon.png" # only available for Android 8.0 devices and above
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  remove_alpha_ios: true
+  web:
+    generate: true
+    image_path: "./assets/images/KBicon.png"
+    background_color: "#0xFFA96ED1"
+    theme_color: "#0xFFA96ED1"
+  windows:
+    generate: true
+    image_path: "./assets/images/KBicon.png"
+    icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: "./assets/images/KBicon.png"
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
+
+
+flutter:
+  fonts:
+    - family: RHD
+      fonts:
+        - asset: fonts/RedHatText.ttf
+          weight: 500
+    - family: Inter
+      fonts:
+        - asset: fonts/Inter.ttf
+          weight: 700
+
+
+  uses-material-design: true
+
+
+
+
+
