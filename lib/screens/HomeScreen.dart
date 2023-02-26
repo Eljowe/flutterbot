@@ -261,7 +261,8 @@ class HomeScreen extends ConsumerState {
                                 ),
                                 Spacer(),
                                 Container(
-                                  constraints: BoxConstraints(maxWidth: 400),
+                                  constraints:
+                                      const BoxConstraints(maxWidth: 400),
                                   margin:
                                       const EdgeInsets.fromLTRB(10, 5, 10, 5),
                                   child: ElevatedButton(
@@ -294,6 +295,8 @@ class HomeScreen extends ConsumerState {
                           ),
                         if (event is Event)
                           Container(
+                            margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                            constraints: const BoxConstraints(maxWidth: 400),
                             child: Text(
                               '${event.name}',
                               style: const TextStyle(
