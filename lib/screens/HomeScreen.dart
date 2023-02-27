@@ -10,7 +10,7 @@ import 'package:url_launcher/link.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:async';
-
+import '../services/sharelinkService.dart';
 
 final eventProvider = StateProvider<dynamic>((ref) => '');
 final loadingProvider = StateProvider<bool>((ref) => false);
@@ -26,9 +26,16 @@ class HomScreen extends ConsumerStatefulWidget {
 
 class HomeScreen extends ConsumerState {
   final _linkController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final sharedlink = ref.watch(sharelinkProvider);
+      _linkController.text = sharedlink;
+      ref.watch(linkProvider.notifier).update((state) => sharedlink);
+      ref.watch(sharelinkProvider.notifier).update((state) => '');
+    });
   }
 
   _navigateTo(String link, WidgetRef ref, BuildContext ctx) {
@@ -69,32 +76,33 @@ class HomeScreen extends ConsumerState {
     int variantloops = 0;
     int aheadtime = 10;
     if (time < aheadtime) {
-      time=0;
+      time = 0;
     } else {
       time -= aheadtime;
     }
     Timer t = Timer(Duration(seconds: time), () async {
-      while (amount_reserved == 0 && loops < 10 && variantloops < 50){
+      while (amount_reserved == 0 && loops < 10 && variantloops < 50) {
         thisevent = await BotService().getEvent(url);
         print('Variants available: ${thisevent.variants.length}');
-        if (thisevent.variants.isNotEmpty){
+        if (thisevent.variants.isNotEmpty) {
           try {
-            amount_reserved = await BotService().postCheckouts(thisevent, bearer, ref);
+            amount_reserved =
+                await BotService().postCheckouts(thisevent, bearer, ref);
             if (amount_reserved > 2) {
               break;
             }
-          } catch (exception ){
+          } catch (exception) {
             print('int error');
           }
           loops++;
         }
         variantloops++;
-        print("reserved: $amount_reserved, loops: $loops variantloops: $variantloops");
+        print(
+            "reserved: $amount_reserved, loops: $loops variantloops: $variantloops");
         await Future.delayed(Duration(seconds: 2));
       }
       ref.watch(timerProvider.notifier).update((state) => []);
       return;
-
     });
     ref.watch(timerProvider.notifier).update((state) => t);
     ref.watch(eventProvider.notifier).update((state) => thisevent);
@@ -302,8 +310,8 @@ class HomeScreen extends ConsumerState {
                                         ref
                                             .watch(loadingProvider.notifier)
                                             .update((state) => true);
-                                        final message =
-                                            await _search(_linkController.text, ref);
+                                        final message = await _search(
+                                            _linkController.text, ref);
                                         ref
                                             .watch(loadingProvider.notifier)
                                             .update((state) => false);
@@ -479,7 +487,6 @@ class HomeScreen extends ConsumerState {
                             child:
                                 const Center(child: LinearProgressIndicator()),
                           ),
-                        
                         if (reservedvariants.isNotEmpty)
                           InkWell(
                             child: Container(
@@ -608,7 +615,7 @@ class HomeScreen extends ConsumerState {
                             ),
                           ),
                         ),
-                        Text('Link: $sharedlink'),
+                        //Text('Link: $sharedlink'),
                       ],
                     )),
               ],
@@ -633,4 +640,3 @@ class LogoutService {
         await http.post(Uri.parse(logoutpath), headers: requestHeaders);
   }
 }
-

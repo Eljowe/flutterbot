@@ -33,7 +33,7 @@ class LoginScreen extends ConsumerState {
   late StreamSubscription _intentDataStreamSubscription;
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  String? _sharedText = '';
+  String _sharedText = '';
   @override
   void initState() {
     super.initState();
@@ -42,21 +42,18 @@ class LoginScreen extends ConsumerState {
     CredentialService().getCredent(ref, _emailController, _passwordController);
     _intentDataStreamSubscription =
         ReceiveSharingIntent.getTextStream().listen((String value) {
-          setState(() {
-            _sharedText = value;
-            print("Shared: $_sharedText");
-            ref.watch(linkProvider.notifier).update((state) => _sharedText!);
-          });
-        }, onError: (err) {
-          print("getLinkStream error: $err");
-        });
+      setState(() {
+        _sharedText = value;
+        ref.watch(linkProvider.notifier).update((state) => _sharedText!);
+      });
+    }, onError: (err) {
+      print("getLinkStream error: $err");
+    });
 
     // For sharing or opening urls/text coming from outside the app while the app is closed
     ReceiveSharingIntent.getInitialText().then((String? value) {
       setState(() {
-
         _sharedText = value!;
-        print("Shared: $_sharedText");
         ref.watch(linkProvider.notifier).update((state) => _sharedText!);
       });
     });
@@ -206,35 +203,51 @@ class LoginScreen extends ConsumerState {
                                 child: Align(
                                   alignment: Alignment.centerRight,
                                   child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
-                                    onPressed: _passwordController.text.isNotEmpty && _emailController.text.isNotEmpty ? () async {
-                                      await CredentialService().savecredentials(
-                                          ref,
-                                          _emailController,
-                                          _passwordController);
-                                      if (_sharedText is String) {
-                                        ref.watch(linkProvider.notifier).update((state) => _sharedText!);
-                                        print("sharedtext added to provider ${_sharedText}");
-                                      }
-                                      final message = await _login(
-                                          _emailController.text,
-                                          _passwordController.text,
-                                          context,
-                                          ref);
-                                      final snackBar = SnackBar(
-                                        content: Text(message),
-                                      );
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(snackBar);
-                                    } : null,
-                                    child: const Text('Login', style: TextStyle(color: Colors.black),),
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.white),
+                                    onPressed: _passwordController
+                                                .text.isNotEmpty &&
+                                            _emailController.text.isNotEmpty
+                                        ? () async {
+                                            if (_sharedText is String) {
+                                              if (_sharedText.isNotEmpty) {
+                                                ref
+                                                    .watch(sharelinkProvider
+                                                        .notifier)
+                                                    .update(
+                                                        (state) => _sharedText);
+                                                _sharedText = '';
+                                              }
+                                            }
+                                            await CredentialService()
+                                                .savecredentials(
+                                                    ref,
+                                                    _emailController,
+                                                    _passwordController);
+
+                                            final message = await _login(
+                                                _emailController.text,
+                                                _passwordController.text,
+                                                context,
+                                                ref);
+                                            final snackBar = SnackBar(
+                                              content: Text(message),
+                                            );
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(snackBar);
+                                          }
+                                        : null,
+                                    child: const Text(
+                                      'Login',
+                                      style: TextStyle(color: Colors.black),
+                                    ),
                                   ),
                                 ),
                               ),
                             ],
                           ),
                         ),
-                        Text("link: $_sharedText"),
+                        //Text("link: $_sharedText"),
                         //Text(email),
                         //Text(password),
                         //Text("Remember: $rememberStatus"),

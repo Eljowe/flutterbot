@@ -42,8 +42,4 @@ class CredentialService {
       checkValue = false;
     }
   }
-
-  remember() {
-    print('here');
-  }
 }
