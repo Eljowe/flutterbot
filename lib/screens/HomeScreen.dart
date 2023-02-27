@@ -406,8 +406,10 @@ class HomeScreen extends ConsumerState {
                               width: 150,
                               height: 150,
                               duration: event.timeuntilsale,
-                              fillColor: Color.fromARGB(255, 118, 83, 187),
-                              ringColor: Color.fromARGB(255, 255, 125, 125),
+                              fillColor:
+                                  const Color.fromARGB(255, 118, 83, 187),
+                              ringColor:
+                                  const Color.fromARGB(255, 255, 125, 125),
                               isReverse: true,
                               textStyle: const TextStyle(
                                 fontSize: 30.0,
@@ -509,7 +511,7 @@ class HomeScreen extends ConsumerState {
                           ),
                         if (isLoading)
                           Container(
-                            constraints: BoxConstraints(maxWidth: 400),
+                            constraints: const BoxConstraints(maxWidth: 400),
                             margin: const EdgeInsets.fromLTRB(10, 30, 10, 5),
                             child:
                                 const Center(child: LinearProgressIndicator()),
@@ -518,7 +520,8 @@ class HomeScreen extends ConsumerState {
                           InkWell(
                             child: Container(
                                 decoration: BoxDecoration(
-                                  color: Color.fromARGB(255, 158, 97, 255),
+                                  color:
+                                      const Color.fromARGB(255, 158, 97, 255),
                                   borderRadius: const BorderRadius.only(
                                       topLeft: Radius.circular(10),
                                       topRight: Radius.circular(10),
@@ -526,7 +529,7 @@ class HomeScreen extends ConsumerState {
                                       bottomRight: Radius.circular(10)),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Color.fromARGB(255, 0, 0, 0)
+                                      color: const Color.fromARGB(255, 0, 0, 0)
                                           .withOpacity(0.4),
                                       spreadRadius: 1,
                                       blurRadius: 1,
