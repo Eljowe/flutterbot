@@ -95,11 +95,13 @@ class HomeScreen extends ConsumerState {
             print('int error');
           }
           loops++;
+        } else {
+          variantloops++;
         }
-        variantloops++;
-        print(
-            "reserved: $amount_reserved, loops: $loops variantloops: $variantloops");
-        await Future.delayed(Duration(seconds: 2));
+        print("ticket available loops (max 10): $loops");
+        print("tickets unavailable loops (max 50): $variantloops");
+        print("reserved: $amount_reserved");
+        await Future.delayed(Duration(seconds: 1));
       }
       ref.watch(timerProvider.notifier).update((state) => []);
       return;

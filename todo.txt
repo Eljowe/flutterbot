@@ -12,6 +12,8 @@ tee valikko kaikista tapahtumista, tulossa olevista ja muista
 
 remember me, password and email-------------
 
+share link from kide app-------------
+
 app timeout
 
 app to github-----------
@@ -25,7 +27,7 @@ start reserving button visuals --------------------
 selvitä mitä fonttien kanssa tapahtuu? (Näyttäisi siltä ettei fonttien 
 painoa pysty säätämään ja ensimmäinen fontti listassa on valittu automaattisesti)
 
-
+loading indicator for login screen
 
 
 
