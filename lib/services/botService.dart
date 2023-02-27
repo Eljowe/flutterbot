@@ -45,64 +45,64 @@ class BotService {
           "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36",
       "x-requested-with": "XMLHttpRequest"
     };
-      
-      for (var element in event.variants) {
-        
-        var amount = element['productVariantMaximumReservableQuantity'];
-        if (element['accessControlMemberships'].isEmpty) {
-          if (element['availability']<element['productVariantMaximumReservableQuantity']) {
-            amount = element['availability'];
-          }
-          print("$amount: Amount of tickets available to buy for variant: ${element['name']}");
-          for (amount; //element['productVariantMaximumReservableQuantity'];
-              amount > 0;
-              amount--) {
-            final data =
-                '{{"toCreate":[{{"inventoryId":"${element['inventoryId']}","quantity":${amount},"productVariantUserForm":null}}],"toCancel":[]}}';
 
-            final response = await http.post(Uri.parse(_checkoutlink),
-                headers: <String, String>{
-                  "accept": "application/json, text/plain, */*",
-                  "accept-language": "fi-FI,fi;q=0.9,en-US;q=0.8,en;q=0.7",
-                  "authority": "api.kide.app",
-                  "authorization": "${bearer}",
-                  "content-type": "application/json;charset=UTF-8",
-                  "origin": "https://kide.app",
-                  "referer": "https://kide.app/",
-                  "sec-ch-ua":
-                      "\".Not/A)Brand\";v=\"99\", \"Google Chrome\";v=\"103\", \"Chromium\";v=\"103\"",
-                  "sec-ch-ua-mobile": "?0",
-                  "sec-ch-ua-platform": "\"Windows\"",
-                  "sec-fetch-dest": "empty",
-                  "sec-fetch-mode": "cors",
-                  "sec-fetch-site": "same-site",
-                  "user-agent":
-                      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36",
-                  "x-requested-with": "XMLHttpRequest"
-                },
-                body: jsonEncode({
-                  "toCreate": [
-                    {
-                      "inventoryId": "${element['inventoryId']}",
-                      "quantity": amount,
-                      "productVariantUserForm": null
-                    }
-                  ]
-                }));
-            if (response.statusCode == 200) {
-              print('reserved $amount tickets');
-              amount_reserved += amount;
-              final String text = "${element['name']} tickets: $amount";
-              ref
-                  .watch(reservedProvider.notifier)
-                  .update((state) => [...state, text]);
-              break;
-            }
+    for (var element in event.variants) {
+      var amount = element['productVariantMaximumReservableQuantity'];
+      if (element['accessControlMemberships'].isEmpty) {
+        if (element['availability'] <
+            element['productVariantMaximumReservableQuantity']) {
+          amount = element['availability'];
+        }
+        print(
+            "$amount: Amount of tickets available to buy for variant: ${element['name']}");
+        for (amount; //element['productVariantMaximumReservableQuantity'];
+            amount > 0;
+            amount--) {
+          final data =
+              '{{"toCreate":[{{"inventoryId":"${element['inventoryId']}","quantity":${amount},"productVariantUserForm":null}}],"toCancel":[]}}';
+
+          final response = await http.post(Uri.parse(_checkoutlink),
+              headers: <String, String>{
+                "accept": "application/json, text/plain, */*",
+                "accept-language": "fi-FI,fi;q=0.9,en-US;q=0.8,en;q=0.7",
+                "authority": "api.kide.app",
+                "authorization": "${bearer}",
+                "content-type": "application/json;charset=UTF-8",
+                "origin": "https://kide.app",
+                "referer": "https://kide.app/",
+                "sec-ch-ua":
+                    "\".Not/A)Brand\";v=\"99\", \"Google Chrome\";v=\"103\", \"Chromium\";v=\"103\"",
+                "sec-ch-ua-mobile": "?0",
+                "sec-ch-ua-platform": "\"Windows\"",
+                "sec-fetch-dest": "empty",
+                "sec-fetch-mode": "cors",
+                "sec-fetch-site": "same-site",
+                "user-agent":
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36",
+                "x-requested-with": "XMLHttpRequest"
+              },
+              body: jsonEncode({
+                "toCreate": [
+                  {
+                    "inventoryId": "${element['inventoryId']}",
+                    "quantity": amount,
+                    "productVariantUserForm": null
+                  }
+                ]
+              }));
+          if (response.statusCode == 200) {
+            print('reserved $amount tickets');
+            amount_reserved += amount;
+            final String text = "${element['name']} tickets: $amount";
+            ref
+                .watch(reservedProvider.notifier)
+                .update((state) => [...state, text]);
+            break;
           }
         }
-        }
-        return amount_reserved;
-      
+      }
+    }
+    return amount_reserved;
   }
 
   Future checkCart(String bearer, ref) async {
@@ -155,4 +155,3 @@ class Event {
         name = jsonData['model']['product']['name'],
         variants = jsonData['model']['variants'];
 }
-

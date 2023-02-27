@@ -212,7 +212,8 @@ class LoginScreen extends ConsumerState {
                                   alignment: Alignment.centerRight,
                                   child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.white),
+                                        backgroundColor:
+                                            Color.fromARGB(255, 255, 125, 125)),
                                     onPressed: _passwordController
                                                 .text.isNotEmpty &&
                                             _emailController.text.isNotEmpty
@@ -247,7 +248,9 @@ class LoginScreen extends ConsumerState {
                                         : null,
                                     child: const Text(
                                       'Login',
-                                      style: TextStyle(color: Colors.black),
+                                      style: TextStyle(
+                                          color: Color.fromARGB(
+                                              255, 255, 255, 255)),
                                     ),
                                   ),
                                 ),

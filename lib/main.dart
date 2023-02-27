@@ -14,8 +14,8 @@ main() {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     setWindowTitle('KideBot');
-    setWindowMaxSize(const Size(600, 900));
-    setWindowMinSize(const Size(600, 900));
+    setWindowMaxSize(const Size(1000, 800));
+    setWindowMinSize(const Size(1000, 800));
   }
 
   final router = GoRouter(

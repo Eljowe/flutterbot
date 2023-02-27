@@ -209,17 +209,20 @@ class HomeScreen extends ConsumerState {
         title: const Text('KideBot'),
         backgroundColor: const Color.fromARGB(255, 118, 83, 187),
         actions: <Widget>[
-          TextButton(
-            onPressed: () async {
-              final message = await _logout(bearer, context, ref);
-              final snackBar = SnackBar(
-                content: Text(message),
-              );
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-            },
-            child: const Text(
-              'Logout',
-              style: TextStyle(color: Colors.white),
+          Container(
+            margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+            child: TextButton(
+              onPressed: () async {
+                final message = await _logout(bearer, context, ref);
+                final snackBar = SnackBar(
+                  content: Text(message),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              },
+              child: const Text(
+                'Logout',
+                style: TextStyle(color: Colors.white),
+              ),
             ),
           ),
         ],
@@ -298,7 +301,8 @@ class HomeScreen extends ConsumerState {
                                       style: ButtonStyle(
                                         backgroundColor:
                                             MaterialStateProperty.all<Color>(
-                                                Colors.black),
+                                                const Color.fromARGB(
+                                                    255, 255, 125, 125)),
                                       ),
                                       onPressed: () async {
                                         _linkController.text = '';
@@ -326,7 +330,8 @@ class HomeScreen extends ConsumerState {
                                       style: ButtonStyle(
                                         backgroundColor:
                                             MaterialStateProperty.all<Color>(
-                                                Colors.black),
+                                                const Color.fromARGB(
+                                                    255, 255, 125, 125)),
                                       ),
                                       onPressed: () async {
                                         ref
@@ -402,7 +407,7 @@ class HomeScreen extends ConsumerState {
                               height: 150,
                               duration: event.timeuntilsale,
                               fillColor: Color.fromARGB(255, 118, 83, 187),
-                              ringColor: Color.fromARGB(255, 63, 21, 129),
+                              ringColor: Color.fromARGB(255, 255, 125, 125),
                               isReverse: true,
                               textStyle: const TextStyle(
                                 fontSize: 30.0,
@@ -460,7 +465,7 @@ class HomeScreen extends ConsumerState {
                           InkWell(
                             child: Container(
                                 decoration: BoxDecoration(
-                                  color: Color.fromARGB(255, 63, 21, 129),
+                                  color: Color.fromARGB(255, 158, 97, 255),
                                   borderRadius: const BorderRadius.only(
                                       topLeft: Radius.circular(10),
                                       topRight: Radius.circular(10),
@@ -513,7 +518,7 @@ class HomeScreen extends ConsumerState {
                           InkWell(
                             child: Container(
                                 decoration: BoxDecoration(
-                                  color: Color.fromARGB(255, 63, 21, 129),
+                                  color: Color.fromARGB(255, 158, 97, 255),
                                   borderRadius: const BorderRadius.only(
                                       topLeft: Radius.circular(10),
                                       topRight: Radius.circular(10),
