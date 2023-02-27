@@ -276,7 +276,7 @@ class HomeScreen extends ConsumerState {
                                     color: Color.fromARGB(255, 255, 255, 255),
                                   ),
                                 ),
-                                labelText: 'Link to the event',
+                                labelText: 'Paste event link here',
                                 labelStyle: TextStyle(
                                   color: Color.fromARGB(255, 255, 255, 255),
                                 ),

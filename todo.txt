@@ -2,6 +2,8 @@ tickets reserved updated from checkout cart rather than when buying tickets-----
 
 make reserving process cancellable------------------
 
+reserve process callback stop
+
 test the app.
 
 refresh button to refresh cart ----teoriassa... nyt search event
@@ -29,7 +31,7 @@ painoa pysty säätämään ja ensimmäinen fontti listassa on valittu automaatt
 
 loading indicator for login screen
 
-create splash screen
+create splash screen-----------------
 
 
 
