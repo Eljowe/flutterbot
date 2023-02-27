@@ -7,6 +7,8 @@ import 'dart:convert';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../services/credentialService.dart';
+import 'package:receive_sharing_intent/receive_sharing_intent.dart';
+import 'dart:async';
 
 final emailProvider = StateProvider((ref) => '');
 final passWordProvider = StateProvider((ref) => '');
@@ -25,15 +27,33 @@ class LogScreen extends ConsumerStatefulWidget {
 }
 
 class LoginScreen extends ConsumerState {
+  late StreamSubscription _intentDataStreamSubscription;
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-
+  String? _sharedText;
   @override
   void initState() {
     super.initState();
     final sharedPreferences = SharedPreferences.getInstance();
 
     CredentialService().getCredent(ref, _emailController, _passwordController);
+    _intentDataStreamSubscription =
+        ReceiveSharingIntent.getTextStream().listen((String value) {
+          setState(() {
+            _sharedText = value;
+            print("Shared: $_sharedText");
+          });
+        }, onError: (err) {
+          print("getLinkStream error: $err");
+        });
+
+    // For sharing or opening urls/text coming from outside the app while the app is closed
+    ReceiveSharingIntent.getInitialText().then((String? value) {
+      setState(() {
+        _sharedText = value;
+        print("Shared: $_sharedText");
+      });
+    });
   }
 
   _navigateTo(String link, WidgetRef ref, BuildContext ctx) {
@@ -180,12 +200,8 @@ class LoginScreen extends ConsumerState {
                                 child: Align(
                                   alignment: Alignment.centerRight,
                                   child: ElevatedButton(
-                                    style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all<Color>(
-                                              Colors.black),
-                                    ),
-                                    onPressed: () async {
+                                    style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
+                                    onPressed: _passwordController.text.isNotEmpty && _emailController.text.isNotEmpty ? () async {
                                       await CredentialService().savecredentials(
                                           ref,
                                           _emailController,
@@ -200,8 +216,8 @@ class LoginScreen extends ConsumerState {
                                       );
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(snackBar);
-                                    },
-                                    child: Text('Login'),
+                                    } : null,
+                                    child: const Text('Login', style: TextStyle(color: Colors.black),),
                                   ),
                                 ),
                               ),
