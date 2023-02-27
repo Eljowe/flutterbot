@@ -9,12 +9,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../services/credentialService.dart';
 import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 import 'dart:async';
+import 'HomeScreen.dart';
 
+final linkProvider = StateProvider<String>((ref) => '');
 final emailProvider = StateProvider((ref) => '');
 final passWordProvider = StateProvider((ref) => '');
 final bearerProvider = StateProvider<String>((ref) => '');
 final informationProvider = StateProvider<String>((ref) => '');
 final rememberProvider = StateProvider<bool>((ref) => false);
+final sharelinkProvider = StateProvider<dynamic>((ref) => '');
 
 final sharedPrefs = FutureProvider<SharedPreferences>(
     (_) async => await SharedPreferences.getInstance());
@@ -30,7 +33,7 @@ class LoginScreen extends ConsumerState {
   late StreamSubscription _intentDataStreamSubscription;
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  String? _sharedText;
+  String? _sharedText = '';
   @override
   void initState() {
     super.initState();
@@ -42,6 +45,7 @@ class LoginScreen extends ConsumerState {
           setState(() {
             _sharedText = value;
             print("Shared: $_sharedText");
+            ref.watch(linkProvider.notifier).update((state) => _sharedText!);
           });
         }, onError: (err) {
           print("getLinkStream error: $err");
@@ -50,8 +54,10 @@ class LoginScreen extends ConsumerState {
     // For sharing or opening urls/text coming from outside the app while the app is closed
     ReceiveSharingIntent.getInitialText().then((String? value) {
       setState(() {
-        _sharedText = value;
+
+        _sharedText = value!;
         print("Shared: $_sharedText");
+        ref.watch(linkProvider.notifier).update((state) => _sharedText!);
       });
     });
   }
@@ -83,7 +89,7 @@ class LoginScreen extends ConsumerState {
     final information = ref.watch(informationProvider);
     var login_status;
     final rememberStatus = ref.watch(rememberProvider);
-
+    final link = ref.watch(linkProvider);
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -206,6 +212,10 @@ class LoginScreen extends ConsumerState {
                                           ref,
                                           _emailController,
                                           _passwordController);
+                                      if (_sharedText is String) {
+                                        ref.watch(linkProvider.notifier).update((state) => _sharedText!);
+                                        print("sharedtext added to provider ${_sharedText}");
+                                      }
                                       final message = await _login(
                                           _emailController.text,
                                           _passwordController.text,
@@ -224,6 +234,7 @@ class LoginScreen extends ConsumerState {
                             ],
                           ),
                         ),
+                        Text("link: $_sharedText"),
                         //Text(email),
                         //Text(password),
                         //Text("Remember: $rememberStatus"),

@@ -11,7 +11,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:async';
 
-final linkProvider = StateProvider<String>((ref) => '');
+
 final eventProvider = StateProvider<dynamic>((ref) => '');
 final loadingProvider = StateProvider<bool>((ref) => false);
 final reservedProvider = StateProvider((ref) => []);
@@ -26,10 +26,10 @@ class HomScreen extends ConsumerStatefulWidget {
 
 class HomeScreen extends ConsumerState {
   final _linkController = TextEditingController();
-
   @override
   void initState() {
     super.initState();
+    print(ref.watch(sharelinkProvider));
   }
 
   _navigateTo(String link, WidgetRef ref, BuildContext ctx) {
@@ -114,6 +114,7 @@ class HomeScreen extends ConsumerState {
     final isLoading = ref.watch(loadingProvider);
     final reservedTickets = ref.watch(reservedProvider);
     final reservetimer = ref.watch(timerProvider);
+    final sharedlink = ref.watch(sharelinkProvider);
     List<Widget> variants = [];
     List<Widget> reservedvariants = [];
     final CountDownController _controller = CountDownController();
@@ -303,7 +304,7 @@ class HomeScreen extends ConsumerState {
                                             .watch(loadingProvider.notifier)
                                             .update((state) => true);
                                         final message =
-                                            await _search(link, ref);
+                                            await _search(_linkController.text, ref);
                                         ref
                                             .watch(loadingProvider.notifier)
                                             .update((state) => false);
@@ -608,6 +609,7 @@ class HomeScreen extends ConsumerState {
                             ),
                           ),
                         ),
+                        Text('Link: $sharedlink'),
                       ],
                     )),
               ],
@@ -632,3 +634,4 @@ class LogoutService {
         await http.post(Uri.parse(logoutpath), headers: requestHeaders);
   }
 }
+
