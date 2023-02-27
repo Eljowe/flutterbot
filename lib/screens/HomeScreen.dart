@@ -11,6 +11,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:async';
 import '../services/sharelinkService.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 final eventProvider = StateProvider<dynamic>((ref) => '');
 final loadingProvider = StateProvider<bool>((ref) => false);
@@ -223,13 +224,24 @@ class HomeScreen extends ConsumerState {
           ),
         ],
       ),
-      backgroundColor: const Color.fromARGB(255, 94, 53, 177),
+      backgroundColor: Color(0xFF5E35B1),
       body: SingleChildScrollView(
         child: Container(
           color: const Color.fromARGB(255, 94, 53, 177),
           child: SafeArea(
             child: Column(
               children: [
+                Container(
+                  height: 120.0,
+                  width: 120.0,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/KBicon.png'),
+                      fit: BoxFit.fill,
+                    ),
+                    shape: BoxShape.circle,
+                  ),
+                ),
                 Container(
                     width: double.infinity,
                     margin: EdgeInsets.only(bottom: 20),

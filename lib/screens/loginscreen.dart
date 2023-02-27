@@ -100,6 +100,12 @@ class LoginScreen extends ConsumerState {
             child: Column(
               children: [
                 Container(
+                    margin: EdgeInsets.all(15),
+                    child: Image.asset(
+                      'assets/images/KBicon.png',
+                      height: 300,
+                    )),
+                Container(
                     width: double.infinity,
                     margin: EdgeInsets.only(bottom: 20),
                     decoration: const BoxDecoration(

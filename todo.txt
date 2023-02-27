@@ -29,6 +29,7 @@ painoa pysty säätämään ja ensimmäinen fontti listassa on valittu automaatt
 
 loading indicator for login screen
 
+create splash screen
 
 
 
