@@ -1,0 +1,36 @@
+tickets reserved updated from checkout cart rather than when buying tickets----------///---------puoliksi, sillä hybridi toimi
+
+make reserving process cancellable------------------
+
+test the app.
+
+refresh button to refresh cart ----teoriassa... nyt search event
+
+perhaps show event reserving process somehow and currently selected event--------------
+
+tee valikko kaikista tapahtumista, tulossa olevista ja muista
+
+remember me, password and email-------------
+
+app timeout
+
+app to github-----------
+
+app custom widget art --------------
+
+remember me and login to a row --------------
+
+start reserving button visuals --------------------
+
+selvitä mitä fonttien kanssa tapahtuu? (Näyttäisi siltä ettei fonttien 
+painoa pysty säätämään ja ensimmäinen fontti listassa on valittu automaattisesti)
+
+
+
+
+
+
+
+CMDs:
+
+flutter pub pub run flutter_launcher_icons:main
