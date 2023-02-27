@@ -63,12 +63,32 @@ class HomeScreen extends ConsumerState {
   }
 
   _reserve(String url, bearer, ref) async {
-    final Event thisevent = await BotService().getEvent(url);
+    Event thisevent = await BotService().getEvent(url);
     final int time = thisevent.timeuntilsale;
+    var amount_reserved = 0;
+    int loops = 0;
     Timer t = Timer(Duration(seconds: time), () async {
-      await BotService().postCheckouts(thisevent, bearer, ref);
+      while (amount_reserved == 0 && loops < 10){
+        thisevent = await BotService().getEvent(url);
+        print('Variants available: ${thisevent.variants.length}');
+        if (thisevent.variants.isNotEmpty){
+          print('Trying to buy ${thisevent.variants.length} variants');
+          try {
+            amount_reserved = await BotService().postCheckouts(thisevent, bearer, ref);
+            if (amount_reserved > 2) {
+              break;
+            }
+          } catch (exception ){
+            print('int error');
+          }
+        }
+        loops++;
+        print("reserved: $amount_reserved, loops: $loops");
+        await Future.delayed(Duration(seconds: 2));
+      }
       ref.watch(timerProvider.notifier).update((state) => []);
       return;
+
     });
     ref.watch(timerProvider.notifier).update((state) => t);
     ref.watch(eventProvider.notifier).update((state) => thisevent);
