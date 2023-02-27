@@ -64,15 +64,21 @@ class HomeScreen extends ConsumerState {
 
   _reserve(String url, bearer, ref) async {
     Event thisevent = await BotService().getEvent(url);
-    final int time = thisevent.timeuntilsale;
+    int time = thisevent.timeuntilsale;
     var amount_reserved = 0;
     int loops = 0;
+    int variantloops = 0;
+    int aheadtime = 10;
+    if (time < aheadtime) {
+      time=0;
+    } else {
+      time -= aheadtime;
+    }
     Timer t = Timer(Duration(seconds: time), () async {
-      while (amount_reserved == 0 && loops < 10){
+      while (amount_reserved == 0 && loops < 10 && variantloops < 50){
         thisevent = await BotService().getEvent(url);
         print('Variants available: ${thisevent.variants.length}');
         if (thisevent.variants.isNotEmpty){
-          print('Trying to buy ${thisevent.variants.length} variants');
           try {
             amount_reserved = await BotService().postCheckouts(thisevent, bearer, ref);
             if (amount_reserved > 2) {
@@ -81,9 +87,10 @@ class HomeScreen extends ConsumerState {
           } catch (exception ){
             print('int error');
           }
+          loops++;
         }
-        loops++;
-        print("reserved: $amount_reserved, loops: $loops");
+        variantloops++;
+        print("reserved: $amount_reserved, loops: $loops variantloops: $variantloops");
         await Future.delayed(Duration(seconds: 2));
       }
       ref.watch(timerProvider.notifier).update((state) => []);
@@ -315,13 +322,26 @@ class HomeScreen extends ConsumerState {
                           ),
                         if (event is Event)
                           Container(
-                            margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                            margin: const EdgeInsets.fromLTRB(20, 10, 20, 0),
                             constraints: const BoxConstraints(maxWidth: 400),
                             child: Text(
                               '${event.name}',
                               style: const TextStyle(
                                 fontSize: 30,
                                 color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        if (event is Event && event.timeuntilsale == 0)
+                          Container(
+                            margin: EdgeInsets.fromLTRB(20, 5, 20, 0),
+                            padding: EdgeInsets.all(0),
+                            child: const Text(
+                              'Ticket sale for this event has started',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Color.fromARGB(255, 171, 171, 171),
+                                fontFamily: 'RHD',
                               ),
                             ),
                           ),
@@ -374,15 +394,15 @@ class HomeScreen extends ConsumerState {
                                   boxShadow: [
                                     BoxShadow(
                                       color: Color.fromARGB(255, 0, 0, 0)
-                                          .withOpacity(0.8),
-                                      spreadRadius: 2,
-                                      blurRadius: 5,
+                                          .withOpacity(0.4),
+                                      spreadRadius: 1,
+                                      blurRadius: 1,
                                       offset: const Offset(
                                           0, 0), // changes position of shadow
                                     ),
                                   ],
                                 ),
-                                margin: EdgeInsets.all(30),
+                                margin: EdgeInsets.all(20),
                                 padding: EdgeInsets.all(20),
                                 child: const Text(
                                   'Cancel',
@@ -419,15 +439,15 @@ class HomeScreen extends ConsumerState {
                                   boxShadow: [
                                     BoxShadow(
                                       color: Color.fromARGB(255, 0, 0, 0)
-                                          .withOpacity(0.8),
-                                      spreadRadius: 2,
-                                      blurRadius: 5,
+                                          .withOpacity(0.4),
+                                      spreadRadius: 1,
+                                      blurRadius: 1,
                                       offset: const Offset(
                                           0, 0), // changes position of shadow
                                     ),
                                   ],
                                 ),
-                                margin: EdgeInsets.all(30),
+                                margin: EdgeInsets.all(20),
                                 padding: EdgeInsets.all(20),
                                 child: const Text(
                                   'Reserve tickets',
@@ -459,19 +479,7 @@ class HomeScreen extends ConsumerState {
                             child:
                                 const Center(child: LinearProgressIndicator()),
                           ),
-                        if (event is Event && event.timeuntilsale == 0)
-                          Container(
-                            margin: EdgeInsets.all(30),
-                            padding: EdgeInsets.all(20),
-                            child: const Text(
-                              'Ticket sale for this event has started',
-                              style: TextStyle(
-                                fontSize: 24,
-                                color: Colors.white,
-                                fontFamily: 'RHD',
-                              ),
-                            ),
-                          ),
+                        
                         if (reservedvariants.isNotEmpty)
                           InkWell(
                             child: Container(
@@ -485,15 +493,15 @@ class HomeScreen extends ConsumerState {
                                   boxShadow: [
                                     BoxShadow(
                                       color: Color.fromARGB(255, 0, 0, 0)
-                                          .withOpacity(0.8),
-                                      spreadRadius: 2,
-                                      blurRadius: 5,
+                                          .withOpacity(0.4),
+                                      spreadRadius: 1,
+                                      blurRadius: 1,
                                       offset: const Offset(
                                           0, 0), // changes position of shadow
                                     ),
                                   ],
                                 ),
-                                margin: EdgeInsets.all(30),
+                                margin: EdgeInsets.all(20),
                                 padding: EdgeInsets.all(20),
                                 child: const Text(
                                   'Open Kide App cart',
