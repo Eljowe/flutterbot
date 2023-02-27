@@ -241,23 +241,31 @@ class HomeScreen extends ConsumerState {
                         Container(
                           constraints: BoxConstraints(maxWidth: 400),
                           margin: const EdgeInsets.fromLTRB(10, 30, 10, 10),
-                          child: TextField(
-                            style: const TextStyle(
-                                color: Color.fromARGB(255, 255, 255, 255)),
-                            onChanged: (String value) => ref
-                                .watch(linkProvider.notifier)
-                                .update((state) => value),
-                            controller: _linkController,
-                            decoration: const InputDecoration(
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  width: 2,
+                          child: Form(
+                            autovalidateMode: AutovalidateMode.always,
+                            child: TextFormField(
+                              validator: (value) =>
+                                  RegExp(r"^(https?:\/\/(.+?\.)?kide.app(\/[A-Za-z0-9\-\._~:\/\?#\[\]@!$&'\(\)\*\+,;\=]*)?)")
+                                          .hasMatch(value!)
+                                      ? null
+                                      : 'Not a valid Kide.App url',
+                              style: const TextStyle(
+                                  color: Color.fromARGB(255, 255, 255, 255)),
+                              onChanged: (String value) => ref
+                                  .watch(linkProvider.notifier)
+                                  .update((state) => value),
+                              controller: _linkController,
+                              decoration: const InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    width: 2,
+                                    color: Color.fromARGB(255, 255, 255, 255),
+                                  ),
+                                ),
+                                labelText: 'Link to the event',
+                                labelStyle: TextStyle(
                                   color: Color.fromARGB(255, 255, 255, 255),
                                 ),
-                              ),
-                              labelText: 'Link to the event',
-                              labelStyle: TextStyle(
-                                color: Color.fromARGB(255, 255, 255, 255),
                               ),
                             ),
                           ),

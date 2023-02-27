@@ -43,8 +43,8 @@ class LoginScreen extends ConsumerState {
     _intentDataStreamSubscription =
         ReceiveSharingIntent.getTextStream().listen((String value) {
       setState(() {
-        _sharedText = value;
-        ref.watch(linkProvider.notifier).update((state) => _sharedText!);
+        _sharedText = value.split(' ').last;
+        ref.watch(linkProvider.notifier).update((state) => _sharedText);
       });
     }, onError: (err) {
       print("getLinkStream error: $err");
@@ -53,8 +53,10 @@ class LoginScreen extends ConsumerState {
     // For sharing or opening urls/text coming from outside the app while the app is closed
     ReceiveSharingIntent.getInitialText().then((String? value) {
       setState(() {
-        _sharedText = value!;
-        ref.watch(linkProvider.notifier).update((state) => _sharedText!);
+        if (value is String) {
+          _sharedText = value.split(' ').last;
+          ref.watch(linkProvider.notifier).update((state) => _sharedText);
+        }
       });
     });
   }
