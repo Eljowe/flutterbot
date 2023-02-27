@@ -29,7 +29,6 @@ class HomeScreen extends ConsumerState {
   @override
   void initState() {
     super.initState();
-    print(ref.watch(sharelinkProvider));
   }
 
   _navigateTo(String link, WidgetRef ref, BuildContext ctx) {
