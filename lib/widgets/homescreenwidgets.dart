@@ -39,9 +39,9 @@ class homescreenwidgets {
                         ref.watch(timerProvider.notifier).update((state) => []);
                         await BotService().checkCart(bearer, ref);
                       },
-                      child: Text('clear')),
+                      child: const Text('clear')),
                 ),
-                Spacer(),
+                const Spacer(),
                 Container(
                   constraints: const BoxConstraints(maxWidth: 400),
                   margin: const EdgeInsets.fromLTRB(10, 5, 10, 5),
@@ -79,7 +79,7 @@ class homescreenwidgets {
     return InkWell(
       child: Container(
           decoration: BoxDecoration(
-            color: Color.fromARGB(255, 158, 97, 255),
+            color: const Color.fromARGB(255, 158, 97, 255),
             borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(10),
                 topRight: Radius.circular(10),
@@ -87,14 +87,14 @@ class homescreenwidgets {
                 bottomRight: Radius.circular(10)),
             boxShadow: [
               BoxShadow(
-                color: Color.fromARGB(255, 0, 0, 0).withOpacity(0.7),
+                color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.7),
                 spreadRadius: 1,
                 blurRadius: 1,
                 offset: const Offset(0, 0), // changes position of shadow
               ),
             ],
           ),
-          margin: EdgeInsets.fromLTRB(10, 30, 10, 30),
+          margin: const EdgeInsets.fromLTRB(10, 30, 10, 30),
           padding: const EdgeInsets.all(15),
           child: const Text(
             'Reserve tickets',
@@ -111,7 +111,7 @@ class homescreenwidgets {
           content: Text('Reserve process initialized'),
         );
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        final message = await homeFunctions().reserve(link, bearer, ref);
+        await homeFunctions().reserve(link, bearer, ref);
 
         try {
           ref.watch(loadingProvider.notifier).update((state) => <String>[
@@ -200,7 +200,7 @@ class homescreenwidgets {
     return Container(
       width: double.maxFinite,
       decoration: BoxDecoration(
-        color: Color.fromARGB(255, 223, 169, 148),
+        color: const Color.fromARGB(255, 223, 169, 148),
         borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(10),
             topRight: Radius.circular(10),
@@ -208,14 +208,14 @@ class homescreenwidgets {
             bottomRight: Radius.circular(10)),
         boxShadow: [
           BoxShadow(
-            color: Color.fromARGB(255, 0, 0, 0).withOpacity(0.4),
+            color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.4),
             spreadRadius: 1,
             blurRadius: 2,
             offset: const Offset(0, 0), // changes position of shadow
           ),
         ],
       ),
-      constraints: BoxConstraints(maxWidth: 400),
+      constraints: const BoxConstraints(maxWidth: 400),
       margin: const EdgeInsets.fromLTRB(15, 20, 15, 20),
       padding: const EdgeInsets.all(30),
       child: Column(
@@ -240,7 +240,7 @@ class homescreenwidgets {
     return Container(
       width: double.maxFinite,
       decoration: BoxDecoration(
-        color: Color.fromARGB(255, 223, 169, 148),
+        color: const Color.fromARGB(255, 223, 169, 148),
         borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(10),
             topRight: Radius.circular(10),
@@ -248,7 +248,7 @@ class homescreenwidgets {
             bottomRight: Radius.circular(10)),
         boxShadow: [
           BoxShadow(
-            color: Color.fromARGB(255, 0, 0, 0).withOpacity(0.4),
+            color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.4),
             spreadRadius: 1,
             blurRadius: 2,
             offset: const Offset(0, 0), // changes position of shadow
@@ -295,8 +295,8 @@ class homescreenwidgets {
               ),
             ],
           ),
-          margin: EdgeInsets.all(20),
-          padding: EdgeInsets.all(20),
+          margin: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           child: const Text(
             'Open Kide App cart',
             style: TextStyle(

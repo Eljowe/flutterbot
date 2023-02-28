@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -17,6 +18,13 @@ main() {
     setWindowMaxSize(const Size(1000, 800));
     setWindowMinSize(const Size(1000, 800));
   }
+
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Color.fromARGB(255, 118, 83, 187),
+      systemNavigationBarColor: Color.fromARGB(255, 118, 83, 187),
+    ),
+  );
 
   final router = GoRouter(
     routes: [

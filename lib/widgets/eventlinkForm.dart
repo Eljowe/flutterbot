@@ -8,7 +8,7 @@ class eventlink {
   linkForm(_linkController, ref) {
     return Container(
       constraints: BoxConstraints(maxWidth: 400),
-      margin: const EdgeInsets.fromLTRB(10, 30, 10, 10),
+      margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
       child: Form(
         autovalidateMode: AutovalidateMode.always,
         child: TextFormField(
