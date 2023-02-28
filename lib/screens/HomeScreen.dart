@@ -75,14 +75,14 @@ class HomeScreen extends ConsumerState {
     var amount_reserved = 0;
     int loops = 0;
     int variantloops = 0;
-    int aheadtime = 10;
+    int aheadtime = 40;
     if (time < aheadtime) {
       time = 0;
     } else {
       time -= aheadtime;
     }
     Timer t = Timer(Duration(seconds: time), () async {
-      while (amount_reserved == 0 && loops < 10 && variantloops < 50) {
+      while (amount_reserved == 0 && loops < 10 && variantloops < 80) {
         thisevent = await BotService().getEvent(url);
         print('Variants available: ${thisevent.variants.length}');
         if (thisevent.variants.isNotEmpty) {
@@ -100,9 +100,9 @@ class HomeScreen extends ConsumerState {
           variantloops++;
         }
         print("ticket available loops (max 10): $loops");
-        print("tickets unavailable loops (max 50): $variantloops");
+        print("tickets unavailable loops (max 80): $variantloops");
         print("reserved: $amount_reserved");
-        await Future.delayed(Duration(seconds: 1));
+        await Future.delayed(Duration(seconds: 2));
       }
       ref.watch(timerProvider.notifier).update((state) => []);
       return;
