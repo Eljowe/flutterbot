@@ -42,6 +42,9 @@ class HomeScreen extends ConsumerState {
       }
       ref.watch(linkProvider.notifier).update((state) => sharedlink);
       ref.watch(sharelinkProvider.notifier).update((state) => '');
+      if (ref.watch(bearerProvider).isEmpty) {
+        homeFunctions().navigateTo('/', ref, context);
+      }
     });
   }
 
