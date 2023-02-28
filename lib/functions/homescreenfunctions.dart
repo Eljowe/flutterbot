@@ -90,31 +90,29 @@ class homeFunctions {
     List<Widget> variants = [];
     event.variants.forEach(
       (element) => variants.add(
-        SingleChildScrollView(
-          child: Column(children: [
-            Container(
-              //color: const Color.fromARGB(255, 169, 110, 209),
-              constraints: const BoxConstraints(maxWidth: 400),
-              margin: const EdgeInsets.all(10),
-              padding: const EdgeInsets.all(10),
-              decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 82, 71, 66),
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(5),
-                    topRight: Radius.circular(5),
-                    bottomLeft: Radius.circular(5),
-                    bottomRight: Radius.circular(5)),
-              ),
-              child: Container(
-                child: Text(
-                  element['name'],
-                  style: const TextStyle(color: Colors.white),
-                ),
-              ),
-              //Container(child: Text(element['inventoryId'])),
+        Column(children: [
+          Container(
+            //color: const Color.fromARGB(255, 169, 110, 209),
+            constraints: const BoxConstraints(maxWidth: 400),
+            margin: const EdgeInsets.all(5),
+            padding: const EdgeInsets.all(10),
+            decoration: const BoxDecoration(
+              color: Color.fromARGB(255, 59, 52, 61),
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(5),
+                  topRight: Radius.circular(5),
+                  bottomLeft: Radius.circular(5),
+                  bottomRight: Radius.circular(5)),
             ),
-          ]),
-        ),
+            child: Container(
+              child: Text(
+                element['name'],
+                style: const TextStyle(color: Colors.white),
+              ),
+            ),
+            //Container(child: Text(element['inventoryId'])),
+          ),
+        ]),
       ),
     );
     return variants;
@@ -124,32 +122,30 @@ class homeFunctions {
     List<Widget> reservedvariants = [];
     reservedTickets.forEach(
       (element) => reservedvariants.add(
-        SingleChildScrollView(
-          child: Column(children: [
-            Container(
-              //color: Color.fromARGB(255, 169, 110, 209),
-              constraints: BoxConstraints(maxWidth: 400),
-              margin: EdgeInsets.all(10),
-              padding: EdgeInsets.all(10),
-              decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 82, 71, 66),
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(5),
-                    topRight: Radius.circular(5),
-                    bottomLeft: Radius.circular(5),
-                    bottomRight: Radius.circular(5)),
-              ),
-              child: Column(children: [
-                Container(
-                  child: Text(
-                    element,
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                ),
-              ]),
+        Column(children: [
+          Container(
+            //color: Color.fromARGB(255, 169, 110, 209),
+            constraints: BoxConstraints(maxWidth: 400),
+            margin: EdgeInsets.all(5),
+            padding: EdgeInsets.all(10),
+            decoration: const BoxDecoration(
+              color: Color.fromARGB(255, 59, 52, 61),
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(5),
+                  topRight: Radius.circular(5),
+                  bottomLeft: Radius.circular(5),
+                  bottomRight: Radius.circular(5)),
             ),
-          ]),
-        ),
+            child: Column(children: [
+              Container(
+                child: Text(
+                  element,
+                  style: const TextStyle(color: Colors.white),
+                ),
+              ),
+            ]),
+          ),
+        ]),
       ),
     );
     return reservedvariants;

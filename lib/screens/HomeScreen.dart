@@ -133,7 +133,7 @@ class HomeScreen extends ConsumerState {
                     width: double.infinity,
                     margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
                     decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 255, 196, 178),
+                        color: Color.fromARGB(255, 118, 83, 187),
                         //color: Color.fromARGB(255, 94, 53, 177),
                         borderRadius: BorderRadius.all(Radius.circular(20)),
                         boxShadow: [
@@ -161,7 +161,7 @@ class HomeScreen extends ConsumerState {
                                 '${event.name}',
                                 style: const TextStyle(
                                   fontSize: 30,
-                                  color: Colors.black,
+                                  color: Color.fromARGB(255, 255, 255, 255),
                                 ),
                               ),
                             ),

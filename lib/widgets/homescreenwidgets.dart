@@ -17,8 +17,8 @@ class homescreenwidgets {
         margin: const EdgeInsets.fromLTRB(10, 0, 10, 5),
         child: Stack(
           children: [
-            Positioned(
-                top: -25,
+            Positioned.fill(
+                top: -20,
                 child: isLoading.isNotEmpty
                     ? onLoading().loadingAnimation()
                     : const Text('')),
@@ -87,7 +87,7 @@ class homescreenwidgets {
                 bottomRight: Radius.circular(10)),
             boxShadow: [
               BoxShadow(
-                color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.7),
+                color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.2),
                 spreadRadius: 1,
                 blurRadius: 1,
                 offset: const Offset(0, 0), // changes position of shadow
@@ -170,7 +170,7 @@ class homescreenwidgets {
   timerWidget(event) {
     return Container(
       decoration: const BoxDecoration(
-        color: Color.fromARGB(255, 255, 196, 178),
+        color: Color.fromARGB(255, 118, 83, 187),
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(10),
             topRight: Radius.circular(10),
@@ -184,7 +184,7 @@ class homescreenwidgets {
         height: 150,
         duration: event.timeuntilsale,
         fillColor: const Color.fromARGB(255, 158, 97, 255),
-        ringColor: const Color.fromARGB(255, 223, 169, 148),
+        ringColor: const Color.fromARGB(255, 118, 83, 187),
         isReverse: true,
         isReverseAnimation: true,
         textStyle: const TextStyle(
@@ -200,7 +200,7 @@ class homescreenwidgets {
     return Container(
       width: double.maxFinite,
       decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 223, 169, 148),
+        color: const Color.fromARGB(255, 158, 97, 255),
         borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(10),
             topRight: Radius.circular(10),
@@ -216,8 +216,8 @@ class homescreenwidgets {
         ],
       ),
       constraints: const BoxConstraints(maxWidth: 400),
-      margin: const EdgeInsets.fromLTRB(15, 20, 15, 20),
-      padding: const EdgeInsets.all(30),
+      margin: const EdgeInsets.fromLTRB(15, 5, 15, 10),
+      padding: const EdgeInsets.all(20),
       child: Column(
         children: [
           Container(
@@ -226,7 +226,7 @@ class homescreenwidgets {
               'Reserved tickets:',
               style: TextStyle(
                 fontSize: 16,
-                color: Colors.black,
+                color: Color.fromARGB(255, 255, 255, 255),
               ),
             ),
           ),
@@ -240,7 +240,7 @@ class homescreenwidgets {
     return Container(
       width: double.maxFinite,
       decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 223, 169, 148),
+        color: const Color.fromARGB(255, 158, 97, 255),
         borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(10),
             topRight: Radius.circular(10),
@@ -256,7 +256,7 @@ class homescreenwidgets {
         ],
       ),
       constraints: const BoxConstraints(maxWidth: 400),
-      margin: const EdgeInsets.fromLTRB(15, 20, 15, 20),
+      margin: const EdgeInsets.fromLTRB(15, 5, 15, 10),
       padding: const EdgeInsets.all(30),
       child: Column(
         children: [
@@ -266,7 +266,7 @@ class homescreenwidgets {
               'All ticket variants for this event:',
               style: TextStyle(
                 fontSize: 16,
-                color: Colors.black,
+                color: Color.fromARGB(255, 255, 255, 255),
               ),
             ),
           ),
