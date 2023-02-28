@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
+import 'package:kidebot/functions/loginscreenfunctions.dart';
 import 'package:kidebot/services/botService.dart';
 import 'dart:convert';
 import 'package:permission_handler/permission_handler.dart';
@@ -10,6 +11,7 @@ import '../services/credentialService.dart';
 import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 import 'dart:async';
 import 'HomeScreen.dart';
+import '../widgets/onLoading.dart';
 
 final linkProvider = StateProvider<String>((ref) => '');
 final emailProvider = StateProvider((ref) => '');
@@ -61,25 +63,6 @@ class LoginScreen extends ConsumerState {
     });
   }
 
-  _navigateTo(String link, WidgetRef ref, BuildContext ctx) {
-    ctx.go(link);
-  }
-
-  _login(String email, String password, context, WidgetRef ref) async {
-    String bearer = await LoginService().login(email, password);
-    ref.watch(bearerProvider.notifier).update((state) => bearer);
-    if (bearer.isNotEmpty) {
-      ref
-          .watch(informationProvider.notifier)
-          .update((state) => 'Login succeeded');
-      _navigateTo('/home', ref, context);
-      return 'Login succeeded';
-    } else {
-      ref.watch(informationProvider.notifier).update((state) => 'Login failed');
-      return 'Login failed, check email and password';
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final email = ref.watch(emailProvider);
@@ -88,6 +71,7 @@ class LoginScreen extends ConsumerState {
     final information = ref.watch(informationProvider);
     var login_status;
     final rememberStatus = ref.watch(rememberProvider);
+    final isLoading = ref.watch(loadingProvider);
     final link = ref.watch(linkProvider);
     Size size = MediaQuery.of(context).size;
 
@@ -99,12 +83,20 @@ class LoginScreen extends ConsumerState {
           child: SafeArea(
             child: Column(
               children: [
-                Container(
-                    margin: EdgeInsets.all(15),
-                    child: Image.asset(
+                Stack(children: [
+                  Center(
+                    child: Container(
+                        child: Image.asset(
                       'assets/images/KBicon.png',
                       height: 300,
                     )),
+                  ),
+                  if (isLoading.isNotEmpty)
+                    Positioned(
+                      top: 220,
+                      child: onLoading().loadingAnimation(),
+                    ),
+                ]),
                 Container(
                     width: double.infinity,
                     margin: EdgeInsets.only(bottom: 20),
@@ -184,6 +176,7 @@ class LoginScreen extends ConsumerState {
                           child: Row(
                             children: [
                               Container(
+                                height: 50,
                                 constraints:
                                     const BoxConstraints(maxWidth: 200),
                                 child: CheckboxListTile(
@@ -205,7 +198,7 @@ class LoginScreen extends ConsumerState {
                                       ListTileControlAffinity.leading,
                                 ),
                               ),
-                              Spacer(),
+                              const Spacer(),
                               Container(
                                 margin: const EdgeInsets.fromLTRB(0, 0, 10, 0),
                                 child: Align(
@@ -218,6 +211,12 @@ class LoginScreen extends ConsumerState {
                                                 .text.isNotEmpty &&
                                             _emailController.text.isNotEmpty
                                         ? () async {
+                                            ref
+                                                .watch(loadingProvider.notifier)
+                                                .update((state) => [
+                                                      ...state,
+                                                      'login_process'
+                                                    ]);
                                             if (_sharedText is String) {
                                               if (_sharedText.isNotEmpty) {
                                                 ref
@@ -234,11 +233,22 @@ class LoginScreen extends ConsumerState {
                                                     _emailController,
                                                     _passwordController);
 
-                                            final message = await _login(
-                                                _emailController.text,
-                                                _passwordController.text,
-                                                context,
-                                                ref);
+                                            final message =
+                                                await loginScreenFunctions()
+                                                    .login(
+                                                        _emailController.text,
+                                                        _passwordController
+                                                            .text,
+                                                        context,
+                                                        ref);
+                                            ref
+                                                .watch(loadingProvider.notifier)
+                                                .update((state) => [
+                                                      ...state
+                                                        ..removeWhere((item) =>
+                                                            item ==
+                                                            'login_process')
+                                                    ]);
                                             final snackBar = SnackBar(
                                               content: Text(message),
                                             );
@@ -258,6 +268,7 @@ class LoginScreen extends ConsumerState {
                             ],
                           ),
                         ),
+
                         //Text("link: $_sharedText"),
                         //Text(email),
                         //Text(password),
@@ -270,21 +281,6 @@ class LoginScreen extends ConsumerState {
         ),
       ),
     );
-  }
-}
-
-class LoginService {
-  Future login(String email, String password) async {
-    const String loginpath = 'https://auth.kide.app/oauth2/token';
-    final String payload =
-        'client_id=56d9cbe22a58432b97c287eadda040df&grant_type=password&password=${password}&rememberMe=true&username=${email}';
-    var response = await http.post(Uri.parse('$loginpath'), body: payload);
-    var data = jsonDecode(response.body);
-    if (data['access_token'] != null) {
-      final token = "Bearer ${data['access_token']}";
-      return token;
-    }
-    return '';
   }
 }
 

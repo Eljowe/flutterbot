@@ -33,7 +33,13 @@ loading indicator for login screen
 
 create splash screen-----------------
 
+loading to a list?
 
+separate all functions to services and widgets to separate widgets
+
+reserve button to top of clock?----------
+
+eriytä providerit omaksi kansiokseen
 
 
 CMDs:
