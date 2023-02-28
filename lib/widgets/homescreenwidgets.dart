@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import '../screens/HomeScreen.dart';
 import '../screens/loginscreen.dart';
 import '../services/botService.dart';
@@ -179,7 +177,7 @@ class homescreenwidgets {
       ),
       margin: const EdgeInsets.fromLTRB(10, 20, 10, 0),
       child: CircularCountDownTimer(
-        strokeCap: StrokeCap.round,
+        //strokeCap: StrokeCap.round,
         width: 150,
         height: 150,
         duration: event.timeuntilsale,

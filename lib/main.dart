@@ -1,14 +1,11 @@
 import 'package:flutter/services.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import './screens/HomeScreen.dart';
 import './screens/loginscreen.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:window_size/window_size.dart';
 import 'dart:io' show Platform;
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'dart:async';
 
 main() {

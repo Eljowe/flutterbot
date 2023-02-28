@@ -1,20 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kidebot/functions/homescreenfunctions.dart';
 import 'package:kidebot/widgets/homescreenwidgets.dart';
 import 'loginscreen.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import '../services/botService.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
-import 'package:url_launcher/link.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'dart:async';
-import '../services/sharelinkService.dart';
-import '../widgets/onLoading.dart';
-import '../services/logoutservice.dart';
 import '../widgets/eventlinkForm.dart';
 
 final eventProvider = StateProvider<dynamic>((ref) => '');

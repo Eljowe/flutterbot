@@ -33,7 +33,7 @@ loading indicator for login screen------------
 
 create splash screen-----------------
 
-loading to a list?------------------
+loading indicator called on a list of processes?------------------
 
 separate all functions to services and widgets to separate widgets
 
