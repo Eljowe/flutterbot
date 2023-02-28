@@ -176,23 +176,31 @@ class LoginScreen extends ConsumerState {
                           child: Row(
                             children: [
                               Container(
+                                margin: const EdgeInsets.fromLTRB(5, 0, 0, 0),
                                 height: 50,
                                 constraints:
-                                    const BoxConstraints(maxWidth: 200),
+                                    const BoxConstraints(maxWidth: 180),
                                 child: CheckboxListTile(
+                                  contentPadding: const EdgeInsets.all(0),
                                   value: rememberStatus,
                                   tileColor: Colors.white,
-                                  checkColor: Colors.black,
+                                  checkColor: Colors.white,
                                   selectedTileColor: Colors.white,
-                                  activeColor: Colors.white,
+                                  activeColor:
+                                      Color.fromARGB(255, 255, 125, 125),
                                   onChanged: (bool) {
                                     ref
                                         .watch(rememberProvider.notifier)
                                         .update((state) => !state);
                                   },
-                                  title: const Text(
-                                    "Remember me",
-                                    style: TextStyle(color: Colors.white),
+                                  title: Transform.translate(
+                                    offset: const Offset(-10, 0),
+                                    child: const Text(
+                                      "Remember me",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
                                   ),
                                   controlAffinity:
                                       ListTileControlAffinity.leading,

@@ -7,62 +7,72 @@ import '../services/botService.dart';
 import '../functions/homescreenfunctions.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../widgets/onLoading.dart';
 
 class homescreenwidgets {
   clearAndSearchRow(ref, _linkController, bearer, context) {
+    final isLoading = ref.watch(loadingProvider);
     return Container(
-      constraints: const BoxConstraints(maxWidth: 400),
-      margin: const EdgeInsets.fromLTRB(10, 0, 10, 5),
-      child: Row(
-        children: [
-          Container(
-            constraints: BoxConstraints(maxWidth: 400),
-            margin: const EdgeInsets.fromLTRB(10, 5, 10, 5),
-            child: ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(
-                      const Color.fromARGB(255, 255, 125, 125)),
+        constraints: const BoxConstraints(maxWidth: 400),
+        margin: const EdgeInsets.fromLTRB(10, 0, 10, 5),
+        child: Stack(
+          children: [
+            Positioned(
+                top: -25,
+                child: isLoading.isNotEmpty
+                    ? onLoading().loadingAnimation()
+                    : const Text('')),
+            Row(
+              children: [
+                Container(
+                  constraints: BoxConstraints(maxWidth: 400),
+                  margin: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+                  child: ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            const Color.fromARGB(255, 255, 125, 125)),
+                      ),
+                      onPressed: () async {
+                        _linkController.text = '';
+                        ref.watch(eventProvider.notifier).update((state) => '');
+                        ref.watch(linkProvider.notifier).update((state) => '');
+                        ref.watch(timerProvider.notifier).update((state) => []);
+                        await BotService().checkCart(bearer, ref);
+                      },
+                      child: Text('clear')),
                 ),
-                onPressed: () async {
-                  _linkController.text = '';
-                  ref.watch(eventProvider.notifier).update((state) => '');
-                  ref.watch(linkProvider.notifier).update((state) => '');
-                  ref.watch(timerProvider.notifier).update((state) => []);
-                  await BotService().checkCart(bearer, ref);
-                },
-                child: Text('clear')),
-          ),
-          Spacer(),
-          Container(
-            constraints: const BoxConstraints(maxWidth: 400),
-            margin: const EdgeInsets.fromLTRB(10, 5, 10, 5),
-            child: ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(
-                      const Color.fromARGB(255, 255, 125, 125)),
+                Spacer(),
+                Container(
+                  constraints: const BoxConstraints(maxWidth: 400),
+                  margin: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+                  child: ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            const Color.fromARGB(255, 255, 125, 125)),
+                      ),
+                      onPressed: () async {
+                        ref.watch(loadingProvider.notifier).update(
+                            (state) => <String>[...state, 'search_event']);
+                        final message = await homeFunctions()
+                            .search(_linkController.text, ref);
+                        ref.watch(loadingProvider.notifier).update((state) =>
+                            <String>[
+                              ...state
+                                ..removeWhere((item) => item == 'search_event')
+                            ]);
+                        final snackBar = SnackBar(
+                          content: Text(message),
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      },
+                      child: const Text(
+                        'Search event',
+                      )),
                 ),
-                onPressed: () async {
-                  ref
-                      .watch(loadingProvider.notifier)
-                      .update((state) => <String>[...state, 'search_event']);
-                  final message =
-                      await homeFunctions().search(_linkController.text, ref);
-                  ref.watch(loadingProvider.notifier).update((state) =>
-                      <String>[
-                        ...state..removeWhere((item) => item == 'search_event')
-                      ]);
-                  final snackBar = SnackBar(
-                    content: Text(message),
-                  );
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                },
-                child: const Text(
-                  'Search event',
-                )),
-          ),
-        ],
-      ),
-    );
+              ],
+            ),
+          ],
+        ));
   }
 
   reservebuttonWidget(ref, context, link, bearer) {
@@ -77,15 +87,15 @@ class homescreenwidgets {
                 bottomRight: Radius.circular(10)),
             boxShadow: [
               BoxShadow(
-                color: Color.fromARGB(255, 0, 0, 0).withOpacity(0.4),
+                color: Color.fromARGB(255, 0, 0, 0).withOpacity(0.7),
                 spreadRadius: 1,
                 blurRadius: 1,
                 offset: const Offset(0, 0), // changes position of shadow
               ),
             ],
           ),
-          margin: EdgeInsets.all(20),
-          padding: EdgeInsets.all(20),
+          margin: EdgeInsets.fromLTRB(10, 30, 10, 30),
+          padding: const EdgeInsets.all(15),
           child: const Text(
             'Reserve tickets',
             style: TextStyle(
@@ -116,7 +126,7 @@ class homescreenwidgets {
     return InkWell(
       child: Container(
           decoration: BoxDecoration(
-            color: Color.fromARGB(255, 131, 32, 32),
+            color: const Color.fromARGB(255, 131, 32, 32),
             borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(10),
                 topRight: Radius.circular(10),
@@ -124,15 +134,15 @@ class homescreenwidgets {
                 bottomRight: Radius.circular(10)),
             boxShadow: [
               BoxShadow(
-                color: Color.fromARGB(255, 0, 0, 0).withOpacity(0.4),
+                color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.4),
                 spreadRadius: 1,
                 blurRadius: 1,
                 offset: const Offset(0, 0), // changes position of shadow
               ),
             ],
           ),
-          margin: EdgeInsets.all(20),
-          padding: EdgeInsets.all(20),
+          margin: const EdgeInsets.fromLTRB(10, 30, 10, 30),
+          padding: const EdgeInsets.all(15),
           child: const Text(
             'Cancel',
             style: TextStyle(
@@ -159,31 +169,24 @@ class homescreenwidgets {
 
   timerWidget(event) {
     return Container(
-      decoration: BoxDecoration(
-        color: Color.fromARGB(255, 118, 83, 187),
-        borderRadius: const BorderRadius.only(
+      decoration: const BoxDecoration(
+        color: Color.fromARGB(255, 255, 196, 178),
+        borderRadius: BorderRadius.only(
             topLeft: Radius.circular(10),
             topRight: Radius.circular(10),
             bottomLeft: Radius.circular(10),
             bottomRight: Radius.circular(10)),
-        boxShadow: [
-          BoxShadow(
-            color: Color.fromARGB(255, 0, 0, 0).withOpacity(0.5),
-            spreadRadius: 2,
-            blurRadius: 5,
-            offset: const Offset(0, 0), // changes position of shadow
-          ),
-        ],
       ),
-      margin: const EdgeInsets.fromLTRB(10, 30, 10, 30),
-      padding: const EdgeInsets.all(30),
+      margin: const EdgeInsets.fromLTRB(10, 20, 10, 0),
       child: CircularCountDownTimer(
+        strokeCap: StrokeCap.round,
         width: 150,
         height: 150,
         duration: event.timeuntilsale,
-        fillColor: const Color.fromARGB(255, 118, 83, 187),
-        ringColor: const Color.fromARGB(255, 255, 125, 125),
+        fillColor: const Color.fromARGB(255, 158, 97, 255),
+        ringColor: const Color.fromARGB(255, 223, 169, 148),
         isReverse: true,
+        isReverseAnimation: true,
         textStyle: const TextStyle(
           fontSize: 30.0,
           color: Colors.white,
@@ -197,7 +200,7 @@ class homescreenwidgets {
     return Container(
       width: double.maxFinite,
       decoration: BoxDecoration(
-        color: Color.fromARGB(255, 118, 83, 187),
+        color: Color.fromARGB(255, 223, 169, 148),
         borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(10),
             topRight: Radius.circular(10),
@@ -205,9 +208,9 @@ class homescreenwidgets {
             bottomRight: Radius.circular(10)),
         boxShadow: [
           BoxShadow(
-            color: Color.fromARGB(255, 0, 0, 0).withOpacity(0.5),
-            spreadRadius: 2,
-            blurRadius: 5,
+            color: Color.fromARGB(255, 0, 0, 0).withOpacity(0.4),
+            spreadRadius: 1,
+            blurRadius: 2,
             offset: const Offset(0, 0), // changes position of shadow
           ),
         ],
@@ -223,7 +226,7 @@ class homescreenwidgets {
               'Reserved tickets:',
               style: TextStyle(
                 fontSize: 16,
-                color: Colors.white,
+                color: Colors.black,
               ),
             ),
           ),
@@ -237,7 +240,7 @@ class homescreenwidgets {
     return Container(
       width: double.maxFinite,
       decoration: BoxDecoration(
-        color: Color.fromARGB(255, 87, 58, 143),
+        color: Color.fromARGB(255, 223, 169, 148),
         borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(10),
             topRight: Radius.circular(10),
@@ -245,9 +248,9 @@ class homescreenwidgets {
             bottomRight: Radius.circular(10)),
         boxShadow: [
           BoxShadow(
-            color: Color.fromARGB(255, 0, 0, 0).withOpacity(0.5),
-            spreadRadius: 2,
-            blurRadius: 5,
+            color: Color.fromARGB(255, 0, 0, 0).withOpacity(0.4),
+            spreadRadius: 1,
+            blurRadius: 2,
             offset: const Offset(0, 0), // changes position of shadow
           ),
         ],
@@ -263,7 +266,7 @@ class homescreenwidgets {
               'All ticket variants for this event:',
               style: TextStyle(
                 fontSize: 16,
-                color: Colors.white,
+                color: Colors.black,
               ),
             ),
           ),
@@ -304,6 +307,20 @@ class homescreenwidgets {
       onTap: () => launchUrl(
         Uri.parse('https://kide.app/checkout'),
         mode: LaunchMode.externalApplication,
+      ),
+    );
+  }
+
+  loggedInAsWidget(email) {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      margin: const EdgeInsets.all(10),
+      child: Text(
+        "Logged in as $email",
+        style: const TextStyle(
+          fontSize: 16,
+          color: Colors.white,
+        ),
       ),
     );
   }

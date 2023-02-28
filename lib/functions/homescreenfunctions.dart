@@ -98,7 +98,7 @@ class homeFunctions {
               margin: const EdgeInsets.all(10),
               padding: const EdgeInsets.all(10),
               decoration: const BoxDecoration(
-                color: Color(0xFFA96ED1),
+                color: Color.fromARGB(255, 82, 71, 66),
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(5),
                     topRight: Radius.circular(5),
@@ -106,7 +106,10 @@ class homeFunctions {
                     bottomRight: Radius.circular(5)),
               ),
               child: Container(
-                child: Text(element['name']),
+                child: Text(
+                  element['name'],
+                  style: const TextStyle(color: Colors.white),
+                ),
               ),
               //Container(child: Text(element['inventoryId'])),
             ),
@@ -129,7 +132,7 @@ class homeFunctions {
               margin: EdgeInsets.all(10),
               padding: EdgeInsets.all(10),
               decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 169, 110, 209),
+                color: Color.fromARGB(255, 82, 71, 66),
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(5),
                     topRight: Radius.circular(5),
@@ -138,7 +141,10 @@ class homeFunctions {
               ),
               child: Column(children: [
                 Container(
-                  child: Text(element),
+                  child: Text(
+                    element,
+                    style: const TextStyle(color: Colors.white),
+                  ),
                 ),
               ]),
             ),

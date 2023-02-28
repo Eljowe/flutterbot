@@ -72,8 +72,12 @@ class HomeScreen extends ConsumerState {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('KideBot'),
-        backgroundColor: const Color.fromARGB(255, 118, 83, 187),
+        title: Container(
+            child: Image.asset(
+          'assets/images/KBBar.png',
+          height: 50,
+        )),
+        backgroundColor: Color.fromARGB(255, 118, 83, 187),
         actions: <Widget>[
           Container(
             margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
@@ -94,10 +98,10 @@ class HomeScreen extends ConsumerState {
           ),
         ],
       ),
-      backgroundColor: Color(0xFF5E35B1),
+      backgroundColor: Color.fromARGB(255, 94, 53, 177),
       body: RefreshIndicator(
         color: Colors.white,
-        backgroundColor: const Color.fromARGB(255, 94, 53, 177),
+        backgroundColor: const Color.fromARGB(255, 118, 83, 187),
         onRefresh: () async {
           ref
               .watch(loadingProvider.notifier)
@@ -119,21 +123,31 @@ class HomeScreen extends ConsumerState {
               child: Column(
                 children: [
                   eventlink().linkForm(_linkController, ref),
+                  if (_linkController.text.isNotEmpty)
+                    homescreenwidgets().clearAndSearchRow(
+                        ref, _linkController, bearer, context),
                   Container(
                     width: double.infinity,
-                    margin: EdgeInsets.only(bottom: 20),
-                    decoration: const BoxDecoration(
-                      color: Color.fromARGB(255, 94, 53, 177),
-                      borderRadius:
-                          BorderRadius.vertical(bottom: Radius.circular(20)),
-                    ),
+                    margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                    decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 255, 196, 178),
+                        //color: Color.fromARGB(255, 94, 53, 177),
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: event is Event
+                                ? const Color.fromARGB(255, 0, 0, 0)
+                                    .withOpacity(0.4)
+                                : const Color.fromARGB(255, 0, 0, 0)
+                                    .withOpacity(0.0),
+                            spreadRadius: 1,
+                            blurRadius: 2,
+                            offset: const Offset(
+                                0, 0), // changes position of shadow
+                          ),
+                        ]),
                     child: Column(
                       children: [
-                        if (_linkController.text.isNotEmpty)
-                          homescreenwidgets().clearAndSearchRow(
-                              ref, _linkController, bearer, context),
-                        if (isLoading.isNotEmpty)
-                          onLoading().loadingAnimation(),
                         if (event is Event)
                           Container(
                             margin: const EdgeInsets.fromLTRB(20, 10, 20, 0),
@@ -144,11 +158,13 @@ class HomeScreen extends ConsumerState {
                                 '${event.name}',
                                 style: const TextStyle(
                                   fontSize: 30,
-                                  color: Colors.white,
+                                  color: Colors.black,
                                 ),
                               ),
                             ),
                           ),
+                        if (event is Event && event.timeuntilsale > 0)
+                          homescreenwidgets().timerWidget(event),
                         if (event is Event &&
                             reservetimer is List &&
                             reservedvariants.isEmpty)
@@ -157,21 +173,6 @@ class HomeScreen extends ConsumerState {
                         if (event is Event && reservetimer is Timer)
                           homescreenwidgets()
                               .cancelbuttonWidget(ref, context, reservetimer),
-                        if (event is Event && event.timeuntilsale == 0)
-                          Container(
-                            margin: EdgeInsets.fromLTRB(20, 5, 20, 0),
-                            padding: EdgeInsets.all(0),
-                            child: const Text(
-                              'Ticket sale for this event has started',
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Color.fromARGB(255, 171, 171, 171),
-                                fontFamily: 'RHD',
-                              ),
-                            ),
-                          ),
-                        if (event is Event && event.timeuntilsale > 0)
-                          homescreenwidgets().timerWidget(event),
                         if (reservedvariants.isNotEmpty)
                           homescreenwidgets().kideapplinkWidget(),
                         if (reservedvariants.isNotEmpty)
@@ -179,17 +180,7 @@ class HomeScreen extends ConsumerState {
                               .reservedvariantsWidget(reservedvariants),
                         if (variants.isNotEmpty)
                           homescreenwidgets().variantsWidget(variants),
-                        Container(
-                          padding: const EdgeInsets.all(20),
-                          margin: const EdgeInsets.all(10),
-                          child: Text(
-                            "Logged in as $email",
-                            style: const TextStyle(
-                              fontSize: 16,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
+
                         //Text('Link: $sharedlink'),
                       ],
                     ),

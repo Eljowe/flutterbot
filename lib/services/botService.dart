@@ -134,7 +134,7 @@ class BotService {
       final data = jsonDecode(response.body);
       data['model']['reservations'].forEach((element) {
         final String text =
-            "${element['variantName']} tickets: ${element['reservedQuantity']}";
+            "${element['variantName']} (tickets: ${element['reservedQuantity']})";
         ref
             .watch(reservedProvider.notifier)
             .update((state) => [...state, text]);

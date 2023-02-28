@@ -6,7 +6,7 @@ reserve process callback stop
 
 test the app.
 
-refresh button to refresh cart ----teoriassa... nyt search event
+refresh button to refresh cart -----------------
 
 perhaps show event reserving process somehow and currently selected event--------------
 
@@ -29,17 +29,19 @@ start reserving button visuals --------------------
 selvitä mitä fonttien kanssa tapahtuu? (Näyttäisi siltä ettei fonttien 
 painoa pysty säätämään ja ensimmäinen fontti listassa on valittu automaattisesti)
 
-loading indicator for login screen
+loading indicator for login screen------------
 
 create splash screen-----------------
 
-loading to a list?
+loading to a list?------------------
 
 separate all functions to services and widgets to separate widgets
 
 reserve button to top of clock?----------
 
 eriytä providerit omaksi kansiokseen
+
+add a function to check if the event is sold out
 
 
 CMDs:
