@@ -57,7 +57,7 @@ class homeFunctions {
     Timer t = Timer(Duration(seconds: time), () async {
       while (amount_reserved == 0 && loops < 10 && variantloops < 80) {
         thisevent = await BotService().getEvent(url);
-        print('Variants available: ${thisevent.variants.length}');
+        debugPrint('Variants available: ${thisevent.variants.length}');
         if (thisevent.variants.isNotEmpty) {
           try {
             amount_reserved =
@@ -66,15 +66,15 @@ class homeFunctions {
               break;
             }
           } catch (exception) {
-            print('int error');
+            debugPrint('int error');
           }
           loops++;
         } else {
           variantloops++;
         }
-        print("ticket available loops (max 10): $loops");
-        print("tickets unavailable loops (max 80): $variantloops");
-        print("reserved: $amount_reserved");
+        debugPrint("ticket available loops (max 10): $loops");
+        debugPrint("tickets unavailable loops (max 80): $variantloops");
+        debugPrint("reserved: $amount_reserved");
         await Future.delayed(Duration(seconds: 2));
       }
       ref.watch(timerProvider.notifier).update((state) => []);

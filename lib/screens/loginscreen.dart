@@ -49,7 +49,7 @@ class LoginScreen extends ConsumerState {
         ref.watch(linkProvider.notifier).update((state) => _sharedText);
       });
     }, onError: (err) {
-      print("getLinkStream error: $err");
+      debugPrint("getLinkStream error: $err");
     });
 
     // For sharing or opening urls/text coming from outside the app while the app is closed

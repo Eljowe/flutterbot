@@ -16,7 +16,7 @@ class BotService {
       final event = Event.fromJson(data);
       return event;
     } catch (exception) {
-      print('bad link');
+      debugPrint('bad link');
       return '';
     }
   }
@@ -53,7 +53,7 @@ class BotService {
             element['productVariantMaximumReservableQuantity']) {
           amount = element['availability'];
         }
-        print(
+        debugPrint(
             "$amount: Amount of tickets available to buy for variant: ${element['name']}");
         for (amount; //element['productVariantMaximumReservableQuantity'];
             amount > 0;
@@ -91,7 +91,7 @@ class BotService {
                 ]
               }));
           if (response.statusCode == 200) {
-            print('reserved $amount tickets');
+            debugPrint('reserved $amount tickets');
             amount_reserved += amount;
             final String text = "${element['name']} tickets: $amount";
             ref
