@@ -92,7 +92,7 @@ class LoginScreen extends ConsumerState {
                     )),
                   ),
                   if (isLoading.isNotEmpty)
-                    Positioned(
+                    Positioned.fill(
                       top: 220,
                       child: onLoading().loadingAnimation(),
                     ),
