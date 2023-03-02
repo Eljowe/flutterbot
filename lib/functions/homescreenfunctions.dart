@@ -57,7 +57,7 @@ class homeFunctions {
     var amount_reserved = 0;
     int loops = 0;
     int variantloops = 0;
-    int aheadtime = 10;
+    int aheadtime = 4;
     if (seconds is int) {
       time = seconds;
     }
@@ -87,7 +87,7 @@ class homeFunctions {
         debugPrint("ticket available loops (max 10): $loops");
         debugPrint("tickets unavailable loops (max 80): $variantloops");
         debugPrint("reserved: $amount_reserved");
-        await Future.delayed(Duration(seconds: 2));
+        await Future.delayed(Duration(seconds: 1));
       }
       ref.watch(timerProvider.notifier).update((state) => []);
       return;
@@ -118,7 +118,7 @@ class homeFunctions {
             ),
             child: Container(
               child: Text(
-                element['name'],
+                "${element['name']} | available tickets: ${element['availability']}",
                 style: const TextStyle(color: Colors.white),
               ),
             ),

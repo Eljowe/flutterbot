@@ -116,16 +116,7 @@ class homescreenwidgets {
     );
   }
 
-  timerWidget(event) {
-    DateTime now = DateTime.now();
-    DateTime upcoming = DateTime.parse(event.salestarts.split(':').first);
-    Duration difference = upcoming.difference(now);
-    int seconds = difference.inSeconds;
-    int time = event.timeuntilsale;
-    if (seconds is int) {
-      time = seconds;
-    }
-
+  timerWidget(time) {
     return Container(
       decoration: const BoxDecoration(
         color: Color.fromARGB(255, 118, 83, 187),

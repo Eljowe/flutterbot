@@ -198,7 +198,7 @@ class HomeScreen extends ConsumerState {
                                   fontWeight: FontWeight.bold),
                             ),
                           if (event is Event && timeuntilsale > 0)
-                            homescreenwidgets().timerWidget(event),
+                            homescreenwidgets().timerWidget(timeuntilsale),
                           if (event is Event &&
                               reservetimer is List &&
                               reservedvariants.isEmpty)
