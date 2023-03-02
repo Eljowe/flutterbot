@@ -13,6 +13,7 @@ final eventProvider = StateProvider<dynamic>((ref) => '');
 final loadingProvider = StateProvider<List<String>>((ref) => []);
 final reservedProvider = StateProvider((ref) => []);
 final timerProvider = StateProvider<dynamic>((ref) => []);
+final timeuntilsaleProvider = StateProvider<int>((ref) => -1);
 
 class HomScreen extends ConsumerStatefulWidget {
   const HomScreen({Key? key}) : super(key: key);
@@ -52,6 +53,7 @@ class HomeScreen extends ConsumerState {
     final reservedTickets = ref.watch(reservedProvider);
     final reservetimer = ref.watch(timerProvider);
     final sharedlink = ref.watch(sharelinkProvider);
+    final timeuntilsale = ref.watch(timeuntilsaleProvider);
     List<Widget> variants = [];
     List<Widget> reservedvariants = [];
     final CountDownController _controller = CountDownController();
@@ -195,7 +197,7 @@ class HomeScreen extends ConsumerState {
                                   color: Colors.red,
                                   fontWeight: FontWeight.bold),
                             ),
-                          if (event is Event && event.timeuntilsale > 0)
+                          if (event is Event && timeuntilsale > 0)
                             homescreenwidgets().timerWidget(event),
                           if (event is Event &&
                               reservetimer is List &&

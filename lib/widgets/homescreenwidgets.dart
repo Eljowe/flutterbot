@@ -121,6 +121,10 @@ class homescreenwidgets {
     DateTime upcoming = DateTime.parse(event.salestarts.split(':').first);
     Duration difference = upcoming.difference(now);
     int seconds = difference.inSeconds;
+    int time = event.timeuntilsale;
+    if (seconds is int) {
+      time = seconds;
+    }
 
     return Container(
       decoration: const BoxDecoration(
@@ -136,7 +140,7 @@ class homescreenwidgets {
         //strokeCap: StrokeCap.round,
         width: 150,
         height: 150,
-        duration: seconds,
+        duration: time,
         fillColor: const Color.fromARGB(255, 158, 97, 255),
         ringColor: const Color.fromARGB(255, 118, 83, 187),
         isReverse: true,

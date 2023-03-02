@@ -35,6 +35,11 @@ class homeFunctions {
     await BotService().checkCart(bearer, ref);
     final event = await BotService().getEvent(url);
     ref.watch(eventProvider.notifier).update((state) => event);
+    DateTime now = DateTime.now();
+    DateTime upcoming = DateTime.parse(event.salestarts!.split(':').first);
+    Duration difference = upcoming.difference(now);
+    int seconds = difference.inSeconds;
+    ref.watch(timeuntilsaleProvider.notifier).update((state) => seconds);
     if (event is Event) {
       return 'searched and found';
     } else {
