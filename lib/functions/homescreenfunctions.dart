@@ -44,11 +44,18 @@ class homeFunctions {
 
   reserve(String url, bearer, ref) async {
     Event thisevent = await BotService().getEvent(url);
+    DateTime now = DateTime.now();
+    DateTime upcoming = DateTime.parse(thisevent.salestarts!.split(':').first);
+    Duration difference = upcoming.difference(now);
+    int seconds = difference.inSeconds;
     int time = thisevent.timeuntilsale;
     var amount_reserved = 0;
     int loops = 0;
     int variantloops = 0;
-    int aheadtime = 40;
+    int aheadtime = 10;
+    if (seconds is int) {
+      time = seconds;
+    }
     if (time < aheadtime) {
       time = 0;
     } else {

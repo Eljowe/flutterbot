@@ -152,8 +152,10 @@ class Event {
   String name;
   String? imageurl;
   int? availability;
+  String? salestarts;
   Event.fromJson(Map<String, dynamic> jsonData)
       : timeuntilsale = jsonData['model']['product']['timeUntilSalesStart'],
+        salestarts = jsonData['model']['product']['dateSalesFrom'],
         name = jsonData['model']['product']['name'],
         imageurl = jsonData['model']['product']['mediaFilename'],
         availability = jsonData['model']['product']['availability'],
