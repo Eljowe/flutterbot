@@ -11,73 +11,22 @@ class homescreenwidgets {
   clearAndSearchRow(ref, _linkController, bearer, context) {
     final isLoading = ref.watch(loadingProvider);
     return Container(
-        constraints: const BoxConstraints(maxWidth: 400),
-        margin: const EdgeInsets.fromLTRB(10, 0, 10, 5),
-        child: Stack(
-          children: [
-            Positioned.fill(
-                top: -20,
-                child: isLoading.isNotEmpty
-                    ? onLoading().loadingAnimation()
-                    : const Text('')),
-            Row(
-              children: [
-                Container(
-                  constraints: BoxConstraints(maxWidth: 400),
-                  margin: const EdgeInsets.fromLTRB(10, 5, 10, 5),
-                  child: ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            const Color.fromARGB(255, 255, 125, 125)),
-                      ),
-                      onPressed: () async {
-                        _linkController.text = '';
-                        ref.watch(eventProvider.notifier).update((state) => '');
-                        ref.watch(linkProvider.notifier).update((state) => '');
-                        ref.watch(timerProvider.notifier).update((state) => []);
-                        await BotService().checkCart(bearer, ref);
-                      },
-                      child: const Text('clear')),
-                ),
-                const Spacer(),
-                Container(
-                  constraints: const BoxConstraints(maxWidth: 400),
-                  margin: const EdgeInsets.fromLTRB(10, 5, 10, 5),
-                  child: ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            const Color.fromARGB(255, 255, 125, 125)),
-                      ),
-                      onPressed: () async {
-                        ref.watch(loadingProvider.notifier).update(
-                            (state) => <String>[...state, 'search_event']);
-                        final message = await homeFunctions()
-                            .search(_linkController.text, ref);
-                        ref.watch(loadingProvider.notifier).update((state) =>
-                            <String>[
-                              ...state
-                                ..removeWhere((item) => item == 'search_event')
-                            ]);
-                        final snackBar = SnackBar(
-                          content: Text(message),
-                        );
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      },
-                      child: const Text(
-                        'Search event',
-                      )),
-                ),
-              ],
-            ),
-          ],
-        ));
+      constraints: const BoxConstraints(maxWidth: 400),
+      margin: const EdgeInsets.fromLTRB(10, 0, 10, 5),
+      child: SizedBox(
+          width: double.maxFinite,
+          height: 50,
+          child: isLoading.isNotEmpty
+              ? onLoading().loadingAnimation()
+              : const Text('')),
+    );
   }
 
   reservebuttonWidget(ref, context, link, bearer) {
     return InkWell(
       child: Container(
           decoration: BoxDecoration(
-            color: const Color.fromARGB(255, 158, 97, 255),
+            color: const Color.fromARGB(255, 255, 125, 125),
             borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(10),
                 topRight: Radius.circular(10),
@@ -106,6 +55,7 @@ class homescreenwidgets {
             .watch(loadingProvider.notifier)
             .update((state) => <String>[...state, 'reserve_process']);
         const snackBar = SnackBar(
+          duration: Duration(seconds: 3),
           content: Text('Reserve process initialized'),
         );
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -158,6 +108,7 @@ class homescreenwidgets {
         } catch (exception) {}
 
         const snackBar = SnackBar(
+          duration: Duration(seconds: 3),
           content: Text('Reserve process canceled'),
         );
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -278,7 +229,7 @@ class homescreenwidgets {
     return InkWell(
       child: Container(
           decoration: BoxDecoration(
-            color: const Color.fromARGB(255, 158, 97, 255),
+            color: const Color.fromARGB(255, 255, 125, 125),
             borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(10),
                 topRight: Radius.circular(10),

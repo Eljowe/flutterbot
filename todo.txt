@@ -43,6 +43,8 @@ eriytä providerit omaksi kansiokseen
 
 add a function to check if the event is sold out
 
+muuta clear ja search tekstikenttään---------
+
 
 CMDs:
 

@@ -7,6 +7,7 @@ import '../services/botService.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'dart:async';
 import '../widgets/eventlinkForm.dart';
+import '../services/imgService.dart';
 
 final eventProvider = StateProvider<dynamic>((ref) => '');
 final loadingProvider = StateProvider<List<String>>((ref) => []);
@@ -116,67 +117,105 @@ class HomeScreen extends ConsumerState {
             child: SafeArea(
               child: Column(
                 children: [
-                  eventlink().linkForm(_linkController, ref),
+                  eventlink().linkForm(_linkController, ref, context),
                   if (_linkController.text.isNotEmpty)
                     homescreenwidgets().clearAndSearchRow(
                         ref, _linkController, bearer, context),
-                  Container(
-                    width: double.infinity,
-                    margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-                    decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 118, 83, 187),
-                        //color: Color.fromARGB(255, 94, 53, 177),
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                        boxShadow: [
-                          BoxShadow(
-                            color: event is Event
-                                ? const Color.fromARGB(255, 0, 0, 0)
-                                    .withOpacity(0.4)
-                                : const Color.fromARGB(255, 0, 0, 0)
-                                    .withOpacity(0.0),
-                            spreadRadius: 1,
-                            blurRadius: 2,
-                            offset: const Offset(
-                                0, 0), // changes position of shadow
-                          ),
-                        ]),
-                    child: Column(
-                      children: [
-                        if (event is Event)
-                          Container(
-                            margin: const EdgeInsets.fromLTRB(20, 10, 20, 0),
-                            constraints: const BoxConstraints(maxWidth: 400),
-                            child: FittedBox(
-                              fit: BoxFit.fitWidth,
-                              child: Text(
-                                '${event.name}',
-                                style: const TextStyle(
-                                  fontSize: 30,
-                                  color: Color.fromARGB(255, 255, 255, 255),
+                  Center(
+                    child: Container(
+                      width: double.infinity,
+                      margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                      constraints: const BoxConstraints(maxWidth: 400),
+                      decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 118, 83, 187),
+                          //color: Color.fromARGB(255, 94, 53, 177),
+
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: event is Event
+                                  ? const Color.fromARGB(255, 0, 0, 0)
+                                      .withOpacity(0.4)
+                                  : const Color.fromARGB(255, 0, 0, 0)
+                                      .withOpacity(0.0),
+                              spreadRadius: 1,
+                              blurRadius: 2,
+                              offset: const Offset(
+                                  0, 0), // changes position of shadow
+                            ),
+                          ]),
+                      child: Column(
+                        children: [
+                          if (event is Event)
+                            Container(
+                              margin: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+                              constraints: const BoxConstraints(maxWidth: 400),
+                              child: FittedBox(
+                                fit: BoxFit.fitWidth,
+                                child: Text(
+                                  '${event.name}',
+                                  style: const TextStyle(
+                                    fontSize: 30,
+                                    color: Color.fromARGB(255, 255, 255, 255),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        if (event is Event && event.timeuntilsale > 0)
-                          homescreenwidgets().timerWidget(event),
-                        if (event is Event &&
-                            reservetimer is List &&
-                            reservedvariants.isEmpty)
-                          homescreenwidgets()
-                              .reservebuttonWidget(ref, context, link, bearer),
-                        if (event is Event && reservetimer is Timer)
-                          homescreenwidgets()
-                              .cancelbuttonWidget(ref, context, reservetimer),
-                        if (reservedvariants.isNotEmpty)
-                          homescreenwidgets().kideapplinkWidget(),
-                        if (reservedvariants.isNotEmpty)
-                          homescreenwidgets()
-                              .reservedvariantsWidget(reservedvariants),
-                        if (variants.isNotEmpty)
-                          homescreenwidgets().variantsWidget(variants),
+                          if (event is Event && event.imageurl != null)
+                            Container(
+                              decoration: BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: const Color.fromARGB(255, 0, 0, 0)
+                                        .withOpacity(0.4),
+                                    spreadRadius: 1,
+                                    blurRadius: 2,
+                                    offset: const Offset(
+                                        0, 0), // changes position of shadow
+                                  ),
+                                ],
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20)),
+                              ),
+                              margin: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8.0),
+                                child: Image.network(
+                                    "https://portalvhdsp62n0yt356llm.blob.core.windows.net/bailataan-mediaitems/${event.imageurl}"),
+                              ),
+                            ),
 
-                        //Text('Link: $sharedlink'),
-                      ],
+                          if (event is Event &&
+                              event.availability == 0 &&
+                              event.timeuntilsale == 0)
+                            const Text(
+                              'EVENT IS SOLD OUT',
+                              style: TextStyle(
+                                  fontSize: 30,
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          if (event is Event && event.timeuntilsale > 0)
+                            homescreenwidgets().timerWidget(event),
+                          if (event is Event &&
+                              reservetimer is List &&
+                              reservedvariants.isEmpty)
+                            homescreenwidgets().reservebuttonWidget(
+                                ref, context, link, bearer),
+                          if (event is Event && reservetimer is Timer)
+                            homescreenwidgets()
+                                .cancelbuttonWidget(ref, context, reservetimer),
+                          if (reservedvariants.isNotEmpty)
+                            homescreenwidgets().kideapplinkWidget(),
+                          if (reservedvariants.isNotEmpty)
+                            homescreenwidgets()
+                                .reservedvariantsWidget(reservedvariants),
+                          if (variants.isNotEmpty)
+                            homescreenwidgets().variantsWidget(variants),
+
+                          //Text('Link: $sharedlink'),
+                        ],
+                      ),
                     ),
                   ),
                 ],
