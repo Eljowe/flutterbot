@@ -12,13 +12,13 @@ class homescreenwidgets {
     final isLoading = ref.watch(loadingProvider);
     return Container(
       constraints: const BoxConstraints(maxWidth: 400),
-      margin: const EdgeInsets.fromLTRB(10, 0, 10, 5),
-      child: SizedBox(
-          width: double.maxFinite,
-          height: 50,
-          child: isLoading.isNotEmpty
-              ? onLoading().loadingAnimation()
-              : const Text('')),
+      margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+      child: isLoading.isNotEmpty
+          ? SizedBox(
+              width: double.maxFinite,
+              height: 50,
+              child: onLoading().loadingAnimation())
+          : const Text(''),
     );
   }
 

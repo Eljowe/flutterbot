@@ -124,7 +124,7 @@ class HomeScreen extends ConsumerState {
                   Center(
                     child: Container(
                       width: double.infinity,
-                      margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                      margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
                       constraints: const BoxConstraints(maxWidth: 400),
                       decoration: BoxDecoration(
                           color: Color.fromARGB(255, 118, 83, 187),

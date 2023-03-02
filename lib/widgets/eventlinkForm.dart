@@ -11,7 +11,7 @@ class eventlink {
     final bearer = ref.watch(bearerProvider);
     return Container(
       constraints: BoxConstraints(maxWidth: 400),
-      margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+      margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
       child: Form(
         autovalidateMode: AutovalidateMode.always,
         child: TextFormField(
