@@ -12,6 +12,7 @@ import '../providers.dart';
 import '../services/kideService.dart';
 import '../screens/HomeScreen.dart';
 import '../screens/loginscreen.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 makeElements(
     List<generalEvent> generalEventList, _linkController, ref, context) {
@@ -47,35 +48,28 @@ makeElements(
                 child: Row(
                   children: [
                     Container(
-                      width: 180,
-                      height: 100,
+                      width: 150,
+                      height: 85,
                       decoration: const BoxDecoration(
-                          color: Color.fromARGB(255, 38, 13, 48)),
+                        color: Color.fromARGB(255, 38, 13, 48),
+                      ),
                       child: Image.network(
                           "https://portalvhdsp62n0yt356llm.blob.core.windows.net/bailataan-mediaitems/${element.imageurl}"),
                     ),
                     Container(
-                      width: 170,
-                      height: 100,
+                      height: 85,
+                      width: 180,
                       padding: const EdgeInsets.all(10),
                       decoration: const BoxDecoration(
                           color: Color.fromARGB(255, 255, 255, 255)),
                       child: Center(
-                        child: Column(children: [
-                          Center(
-                            child: Text(
-                              '${element.name}',
-                              style:
-                                  const TextStyle(fontWeight: FontWeight.bold),
-                            ),
+                        child: AutoSizeText(
+                          '${element.name} Ticket sale: ${DateFormat('dd.MM. kk:mm').format(DateTime.parse(element.salestarts!.split(':').first))}',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
                           ),
-                          Center(
-                            child: Text(
-                              "Ticket sale: ${DateFormat('dd.MM. kk:mm').format(DateTime.parse(element.salestarts!.split(':').first))}",
-                              style: const TextStyle(),
-                            ),
-                          ),
-                        ]),
+                        ),
                       ),
                     ),
                   ],
@@ -106,18 +100,22 @@ eventList(_searchController, _linkController, List<generalEvent> generalEvents,
   return Container(
       padding: const EdgeInsets.all(20),
       child: Column(children: <Widget>[
-        const Text(
-          'Upcoming events',
-          style: TextStyle(
-              color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+        Container(
+          margin: const EdgeInsets.all(10),
+          child: const Text(
+            'Upcoming events',
+            style: TextStyle(
+                color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+          ),
         ),
         ConstrainedBox(
-          constraints: const BoxConstraints(maxHeight: 330, minHeight: 100),
-          child: ListView(
+          constraints: const BoxConstraints(maxHeight: 400, minHeight: 100),
+          child: ListView.builder(
             shrinkWrap: true,
-            children: [
-              ...elements,
-            ],
+            itemCount: elements.length,
+            itemBuilder: (context, index) {
+              return elements[index];
+            },
           ),
         )
       ]));
