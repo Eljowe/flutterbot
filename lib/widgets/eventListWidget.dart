@@ -4,6 +4,7 @@ import 'package:kidebot/functions/homescreenfunctions.dart';
 import 'package:kidebot/widgets/homescreenwidgets.dart';
 import '../services/botService.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
+import 'package:intl/intl.dart';
 import 'dart:async';
 import '../widgets/eventlinkForm.dart';
 import '../services/imgService.dart';
@@ -22,7 +23,6 @@ makeElements(
           eventItems.add(
             InkWell(
               onTap: () async {
-                print(element.name);
                 await ref
                     .watch(linkProvider.notifier)
                     .update((state) => "https://kide.app/events/${element.id}");
@@ -61,10 +61,22 @@ makeElements(
                       decoration: const BoxDecoration(
                           color: Color.fromARGB(255, 255, 255, 255)),
                       child: Center(
-                          child: Text(
-                        '${element.name}',
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      )),
+                        child: Column(children: [
+                          Center(
+                            child: Text(
+                              '${element.name}',
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          Center(
+                            child: Text(
+                              "Ticket sale: ${DateFormat('dd.MM. kk:mm').format(DateTime.parse(element.salestarts!.split(':').first))}",
+                              style: const TextStyle(),
+                            ),
+                          ),
+                        ]),
+                      ),
                     ),
                   ],
                 ),
