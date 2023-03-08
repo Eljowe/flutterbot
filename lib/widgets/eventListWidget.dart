@@ -92,7 +92,6 @@ eventList(_searchController, _linkController, List<generalEvent> generalEvents,
   }
   //var elements = makeElements(generalEvents, ref, context);
   return Container(
-      height: 400,
       padding: const EdgeInsets.all(20),
       child: Column(children: <Widget>[
         const Text(
@@ -100,9 +99,10 @@ eventList(_searchController, _linkController, List<generalEvent> generalEvents,
           style: TextStyle(
               color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
         ),
-        Divider(),
-        Expanded(
+        ConstrainedBox(
+          constraints: const BoxConstraints(maxHeight: 330, minHeight: 100),
           child: ListView(
+            shrinkWrap: true,
             children: [
               ...elements,
             ],
