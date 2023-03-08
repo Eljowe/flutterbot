@@ -1,14 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kidebot/functions/homescreenfunctions.dart';
-import 'package:kidebot/widgets/homescreenwidgets.dart';
-import '../services/botService.dart';
-import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:intl/intl.dart';
-import 'dart:async';
-import '../widgets/eventlinkForm.dart';
-import '../services/imgService.dart';
-import '../providers.dart';
 import '../services/kideService.dart';
 import '../screens/HomeScreen.dart';
 import '../screens/loginscreen.dart';
