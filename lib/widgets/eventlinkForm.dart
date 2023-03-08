@@ -5,13 +5,14 @@ import '../screens/HomeScreen.dart';
 import '../screens/loginscreen.dart';
 import '../services/botService.dart';
 import '../functions/homescreenfunctions.dart';
+import '../services/kideService.dart';
 
 class eventlink {
   linkForm(_linkController, ref, context) {
     final bearer = ref.watch(bearerProvider);
     return Container(
       constraints: BoxConstraints(maxWidth: 400),
-      margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+      margin: const EdgeInsets.fromLTRB(10, 10, 10, 20),
       child: Form(
         autovalidateMode: AutovalidateMode.always,
         child: TextFormField(
@@ -62,6 +63,7 @@ class eventlink {
                     onTap: () async {
                       ref.watch(loadingProvider.notifier).update(
                           (state) => <String>[...state, 'search_event']);
+
                       final message = await homeFunctions()
                           .search(_linkController.text, ref);
                       ref.watch(loadingProvider.notifier).update((state) =>

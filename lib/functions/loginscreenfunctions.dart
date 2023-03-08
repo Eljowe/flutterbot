@@ -10,6 +10,7 @@ import '../services/credentialService.dart';
 import '../services/sharelinkService.dart';
 import 'dart:async';
 import '../services/logoutservice.dart';
+import '../services/kideService.dart';
 
 class loginScreenFunctions {
   navigateTo(String link, WidgetRef ref, BuildContext ctx) {
@@ -23,6 +24,7 @@ class loginScreenFunctions {
       ref
           .watch(informationProvider.notifier)
           .update((state) => 'Login succeeded');
+      await KideService().getAllEvents(ref);
       navigateTo('/home', ref, context);
       return 'Login succeeded';
     } else {

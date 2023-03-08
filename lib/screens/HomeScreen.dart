@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kidebot/functions/homescreenfunctions.dart';
+import 'package:kidebot/widgets/eventListWidget.dart';
 import 'package:kidebot/widgets/homescreenwidgets.dart';
 import 'loginscreen.dart';
 import '../services/botService.dart';
@@ -8,6 +9,9 @@ import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'dart:async';
 import '../widgets/eventlinkForm.dart';
 import '../services/imgService.dart';
+import '../services/kideService.dart';
+
+import '../providers.dart';
 
 final eventProvider = StateProvider<dynamic>((ref) => '');
 final loadingProvider = StateProvider<List<String>>((ref) => []);
@@ -24,7 +28,8 @@ class HomScreen extends ConsumerStatefulWidget {
 
 class HomeScreen extends ConsumerState {
   final _linkController = TextEditingController();
-
+  final _searchController = TextEditingController();
+  List<Widget> elements = [];
   @override
   void initState() {
     super.initState();
@@ -41,6 +46,49 @@ class HomeScreen extends ConsumerState {
     });
   }
 
+  void refreshList() {
+    setState(() {
+      // Update the items list here
+      List<generalEvent>? generalEvents = ref.watch(generalEventsProvider);
+      var elements = [];
+      elements = makeElements(
+          generalEvents!
+              .where((event) => event.name
+                  .toLowerCase()
+                  .contains(_searchController.text.toLowerCase()))
+              .toList(),
+          _linkController,
+          ref,
+          context);
+      if (elements.isEmpty) {
+        elements = makeElements(generalEvents, _linkController, ref, context);
+      }
+      // Return a ListView widget with the items list
+      return eventList(
+          _searchController, _linkController, generalEvents, ref, context);
+    });
+  }
+
+  Widget buildItemsList() {
+    List<generalEvent>? generalEvents = ref.watch(generalEventsProvider);
+    var elements = [];
+    elements = makeElements(
+        generalEvents!
+            .where((event) => event.name
+                .toLowerCase()
+                .contains(_searchController.text.toLowerCase()))
+            .toList(),
+        _linkController,
+        ref,
+        context);
+    if (elements.isEmpty) {
+      elements = makeElements(generalEvents, _linkController, ref, context);
+    }
+    // Return a ListView widget with the items list
+    return eventList(
+        _searchController, _linkController, generalEvents, ref, context);
+  }
+
   @override
   Widget build(BuildContext context) {
     final email = ref.watch(emailProvider);
@@ -54,6 +102,7 @@ class HomeScreen extends ConsumerState {
     final reservetimer = ref.watch(timerProvider);
     final sharedlink = ref.watch(sharelinkProvider);
     final timeuntilsale = ref.watch(timeuntilsaleProvider);
+
     List<Widget> variants = [];
     List<Widget> reservedvariants = [];
     final CountDownController _controller = CountDownController();
@@ -111,6 +160,7 @@ class HomeScreen extends ConsumerState {
           ref.watch(loadingProvider.notifier).update((state) => <String>[
                 ...state..removeWhere((item) => item == 'search_event')
               ]);
+          await KideService().getAllEvents(ref);
         },
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
@@ -216,6 +266,51 @@ class HomeScreen extends ConsumerState {
                             homescreenwidgets().variantsWidget(variants),
 
                           //Text('Link: $sharedlink'),
+                          Container(
+                              constraints: const BoxConstraints(maxWidth: 400),
+                              margin: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+                              child: Form(
+                                child: TextFormField(
+                                  style: const TextStyle(
+                                      color:
+                                          Color.fromARGB(255, 255, 255, 255)),
+                                  controller: _searchController,
+                                  onChanged: (String value) => refreshList(),
+                                  decoration: InputDecoration(
+                                    prefix: _searchController.text.isEmpty
+                                        ? null
+                                        : InkWell(
+                                            child: Transform.translate(
+                                              offset: const Offset(-5, 5),
+                                              child: Container(
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        5, 0, 5, 0),
+                                                child: const Icon(
+                                                  Icons.highlight_remove,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                            onTap: () async {
+                                              _searchController.text = '';
+                                              refreshList();
+                                            },
+                                          ),
+                                    enabledBorder: const OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        width: 2,
+                                        color: Color.fromARGB(255, 94, 53, 177),
+                                      ),
+                                    ),
+                                    labelText: 'Search events',
+                                    labelStyle: const TextStyle(
+                                      color: Color.fromARGB(255, 255, 255, 255),
+                                    ),
+                                  ),
+                                ),
+                              )),
+                          buildItemsList(),
                         ],
                       ),
                     ),
