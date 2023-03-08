@@ -22,7 +22,9 @@ class KideService {
           eventlist.add(event);
         }
       }
+      eventlist.sort((a, b) => a.timeuntilsale.compareTo(b.timeuntilsale));
       ref.watch(generalEventsProvider.notifier).update((state) => eventlist);
+
       return data;
     } catch (exception) {
       debugPrint('cant parse');
