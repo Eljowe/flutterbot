@@ -16,6 +16,10 @@ makeElements(
           eventItems.add(
             InkWell(
               onTap: () async {
+                _linkController.text = '';
+                ref.watch(eventProvider.notifier).update((state) => '');
+                ref.watch(linkProvider.notifier).update((state) => '');
+                ref.watch(timerProvider.notifier).update((state) => []);
                 await ref
                     .watch(linkProvider.notifier)
                     .update((state) => "https://kide.app/events/${element.id}");
