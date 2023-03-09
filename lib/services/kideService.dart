@@ -40,11 +40,13 @@ class generalEvent {
   int? availability;
   String? salestarts;
   String id;
+  int favoritedTimes;
   generalEvent.fromJson(Map<String, dynamic> jsonData)
       : timeuntilsale = jsonData['timeUntilSalesStart'],
         salestarts = jsonData['dateSalesFrom'],
         name = jsonData['name'],
         imageurl = jsonData['mediaFilename'],
         availability = jsonData['availability'],
+        favoritedTimes = jsonData['favoritedTimes'],
         id = jsonData['id'];
 }

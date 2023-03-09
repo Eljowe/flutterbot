@@ -50,13 +50,19 @@ makeElements(
                     ),
                     Container(
                       height: 85,
-                      width: 180,
+                      width: 200,
                       padding: const EdgeInsets.all(10),
                       decoration: const BoxDecoration(
                           color: Color.fromARGB(255, 255, 255, 255)),
                       child: Center(
-                        child: AutoSizeText(
-                          '${element.name} Ticket sale: ${DateFormat('dd.MM. kk:mm').format(DateTime.parse(element.salestarts!.split(':').first))}',
+                        child: AutoSizeText.rich(
+                          TextSpan(
+                            children: [
+                              TextSpan(
+                                  text:
+                                      '${element.name} | Ticket sale: ${DateFormat('dd.MM. kk:mm').format(DateTime.parse(element.salestarts!.split(':').first))} | ${element.favoritedTimes} 💜'),
+                            ],
+                          ),
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 15,
