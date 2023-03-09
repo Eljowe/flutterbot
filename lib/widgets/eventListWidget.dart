@@ -38,6 +38,7 @@ makeElements(
               child: Container(
                 margin: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                 child: Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Container(
                       width: 150,
@@ -48,24 +49,21 @@ makeElements(
                       child: Image.network(
                           "https://portalvhdsp62n0yt356llm.blob.core.windows.net/bailataan-mediaitems/${element.imageurl}"),
                     ),
-                    Container(
-                      height: 85,
-                      width: 200,
-                      padding: const EdgeInsets.all(10),
-                      decoration: const BoxDecoration(
-                          color: Color.fromARGB(255, 255, 255, 255)),
-                      child: Center(
-                        child: AutoSizeText.rich(
-                          TextSpan(
-                            children: [
-                              TextSpan(
-                                  text:
-                                      '${element.name} | Ticket sale: ${DateFormat('dd.MM. kk:mm').format(DateTime.parse(element.salestarts!.split(':').first))} | ${element.favoritedTimes} 💜'),
-                            ],
-                          ),
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
+                    Flexible(
+                      child: ConstrainedBox(
+                        constraints: const BoxConstraints(maxWidth: 200),
+                        child: Container(
+                          height: 85,
+                          padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                          decoration: const BoxDecoration(
+                              color: Color.fromARGB(255, 255, 255, 255)),
+                          child: Center(
+                            child: AutoSizeText(
+                              '${element.name} | Ticket sale: ${DateFormat('dd.MM. kk:mm').format(DateTime.parse(element.salestarts!.split(':').first))} | ${element.favoritedTimes} 💜',
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
                         ),
                       ),
