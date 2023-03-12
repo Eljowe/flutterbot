@@ -34,7 +34,7 @@ makeElements(
                       ...state..removeWhere((item) => item == 'search_event')
                     ]);
                 final snackBar = SnackBar(
-                  duration: Duration(seconds: 3),
+                  duration: Duration(seconds: 1),
                   content: Text(message),
                 );
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -96,27 +96,33 @@ eventList(_searchController, _linkController, List<generalEvent> generalEvents,
   if (elements.isEmpty) {
     elements = makeElements(generalEvents, _linkController, ref, context);
   }
+
+  double height = MediaQuery.of(context).size.height;
+  var padding = MediaQuery.of(context).padding;
+  double safeheight = height - padding.top - padding.bottom;
   //var elements = makeElements(generalEvents, ref, context);
   return Container(
-      padding: const EdgeInsets.all(20),
-      child: Column(children: <Widget>[
-        Container(
-          margin: const EdgeInsets.all(10),
-          child: const Text(
-            'Upcoming events',
-            style: TextStyle(
-                color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
-          ),
+    padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+    child: Column(children: <Widget>[
+      Container(
+        margin: const EdgeInsets.all(10),
+        child: const Text(
+          'Upcoming events',
+          style: TextStyle(
+              color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
         ),
-        ConstrainedBox(
-          constraints: const BoxConstraints(maxHeight: 400, minHeight: 100),
-          child: ListView.builder(
-            shrinkWrap: true,
-            itemCount: elements.length,
-            itemBuilder: (context, index) {
-              return elements[index];
-            },
-          ),
-        )
-      ]));
+      ),
+      ConstrainedBox(
+        constraints:
+            BoxConstraints(maxHeight: safeheight - 345, minHeight: 100),
+        child: ListView.builder(
+          shrinkWrap: true,
+          itemCount: elements.length,
+          itemBuilder: (context, index) {
+            return elements[index];
+          },
+        ),
+      )
+    ]),
+  );
 }

@@ -9,6 +9,8 @@ import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'dart:async';
 import '../widgets/eventlinkForm.dart';
 import '../services/kideService.dart';
+import 'package:html/parser.dart';
+import 'dart:convert';
 
 import '../providers.dart';
 
@@ -43,6 +45,14 @@ class HomeScreen extends ConsumerState {
         homeFunctions().navigateTo('/', ref, context);
       }
     });
+  }
+
+  parsehtml(Event event) {
+    final htmlString = jsonDecode(event.description)['en'];
+    final document = parse(htmlString);
+    final String parsedString =
+        parse(document.body!.text).documentElement!.text;
+    return parsedString;
   }
 
   void refreshList() {
@@ -105,6 +115,10 @@ class HomeScreen extends ConsumerState {
     List<Widget> variants = [];
     List<Widget> reservedvariants = [];
     final CountDownController _controller = CountDownController();
+
+    double height = MediaQuery.of(context).size.height;
+    var padding = MediaQuery.of(context).padding;
+    double safeheight = height - padding.top - padding.bottom;
 
     if (event is Event) {
       variants = homeFunctions().eventvariantsTowidgets(event);
@@ -175,7 +189,7 @@ class HomeScreen extends ConsumerState {
                   Center(
                     child: Container(
                       width: double.infinity,
-                      margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+                      margin: const EdgeInsets.fromLTRB(10, 0, 10, 20),
                       constraints: const BoxConstraints(maxWidth: 400),
                       decoration: BoxDecoration(
                           color: Color.fromARGB(255, 118, 83, 187),
@@ -263,57 +277,97 @@ class HomeScreen extends ConsumerState {
                                 .reservedvariantsWidget(reservedvariants),
                           if (variants.isNotEmpty)
                             homescreenwidgets().variantsWidget(variants),
-
+                          if (event is Event)
+                            Container(
+                              margin: EdgeInsets.all(20),
+                              child: Text(
+                                parsehtml(event),
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 16),
+                              ),
+                            ),
                           //Text('Link: $sharedlink'),
-                          Container(
-                              constraints: const BoxConstraints(maxWidth: 400),
-                              margin: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-                              child: Form(
-                                child: TextFormField(
-                                  style: const TextStyle(
-                                      color:
-                                          Color.fromARGB(255, 255, 255, 255)),
-                                  controller: _searchController,
-                                  onChanged: (String value) => refreshList(),
-                                  decoration: InputDecoration(
-                                    prefix: _searchController.text.isEmpty
-                                        ? null
-                                        : InkWell(
-                                            child: Transform.translate(
-                                              offset: const Offset(-5, 5),
-                                              child: Container(
-                                                padding:
-                                                    const EdgeInsets.fromLTRB(
-                                                        5, 0, 5, 0),
-                                                child: const Icon(
-                                                  Icons.highlight_remove,
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                            ),
-                                            onTap: () async {
-                                              _searchController.text = '';
-                                              refreshList();
-                                            },
-                                          ),
-                                    enabledBorder: const OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        width: 2,
-                                        color: Color.fromARGB(255, 94, 53, 177),
-                                      ),
-                                    ),
-                                    labelText: 'Search events',
-                                    labelStyle: const TextStyle(
-                                      color: Color.fromARGB(255, 255, 255, 255),
-                                    ),
-                                  ),
-                                ),
-                              )),
-                          buildItemsList(),
+                          //upcoming events list
                         ],
                       ),
                     ),
                   ),
+                  Center(
+                    child: Container(
+                      width: double.infinity,
+                      height: safeheight - 180,
+                      margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+                      constraints: const BoxConstraints(maxWidth: 400),
+                      decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 118, 83, 187),
+                          //color: Color.fromARGB(255, 94, 53, 177),
+
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: event is Event
+                                  ? const Color.fromARGB(255, 0, 0, 0)
+                                      .withOpacity(0.4)
+                                  : const Color.fromARGB(255, 0, 0, 0)
+                                      .withOpacity(0.0),
+                              spreadRadius: 1,
+                              blurRadius: 2,
+                              offset: const Offset(
+                                  0, 0), // changes position of shadow
+                            ),
+                          ]),
+                      child: Column(
+                        children: [
+                          Container(
+                            //event search container
+                            constraints: const BoxConstraints(maxWidth: 400),
+                            margin: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+                            child: Form(
+                              child: TextFormField(
+                                style: const TextStyle(
+                                    color: Color.fromARGB(255, 255, 255, 255)),
+                                controller: _searchController,
+                                onChanged: (String value) => refreshList(),
+                                decoration: InputDecoration(
+                                  prefix: _searchController.text.isEmpty
+                                      ? null
+                                      : InkWell(
+                                          child: Transform.translate(
+                                            offset: const Offset(-5, 5),
+                                            child: Container(
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      5, 0, 5, 0),
+                                              child: const Icon(
+                                                Icons.highlight_remove,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ),
+                                          onTap: () async {
+                                            _searchController.text = '';
+                                            refreshList();
+                                          },
+                                        ),
+                                  enabledBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      width: 2,
+                                      color: Color.fromARGB(255, 94, 53, 177),
+                                    ),
+                                  ),
+                                  labelText: 'Search events',
+                                  labelStyle: const TextStyle(
+                                    color: Color.fromARGB(255, 255, 255, 255),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          buildItemsList(),
+                        ],
+                      ),
+                    ),
+                  )
                 ],
               ),
             ),

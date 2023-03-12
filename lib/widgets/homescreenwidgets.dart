@@ -41,7 +41,7 @@ class homescreenwidgets {
               ),
             ],
           ),
-          margin: const EdgeInsets.fromLTRB(10, 30, 10, 30),
+          margin: const EdgeInsets.fromLTRB(10, 30, 10, 10),
           padding: const EdgeInsets.all(15),
           child: const Text(
             'Reserve tickets',
@@ -89,7 +89,7 @@ class homescreenwidgets {
               ),
             ],
           ),
-          margin: const EdgeInsets.fromLTRB(10, 30, 10, 30),
+          margin: const EdgeInsets.fromLTRB(10, 30, 10, 10),
           padding: const EdgeInsets.all(15),
           child: const Text(
             'Cancel',
@@ -126,7 +126,7 @@ class homescreenwidgets {
             bottomLeft: Radius.circular(10),
             bottomRight: Radius.circular(10)),
       ),
-      margin: const EdgeInsets.fromLTRB(10, 20, 10, 0),
+      margin: const EdgeInsets.fromLTRB(10, 30, 10, 0),
       child: CircularCountDownTimer(
         //strokeCap: StrokeCap.round,
         width: 150,
