@@ -72,7 +72,7 @@ class eventlink {
                               ..removeWhere((item) => item == 'search_event')
                           ]);
                       final snackBar = SnackBar(
-                        duration: Duration(seconds: 3),
+                        duration: const Duration(seconds: 3),
                         content: Text(message),
                       );
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
