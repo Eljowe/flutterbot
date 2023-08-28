@@ -81,21 +81,24 @@ class HomeScreen extends ConsumerState {
   Widget buildItemsList() {
     List<generalEvent>? generalEvents = ref.watch(generalEventsProvider);
     var elements = [];
-    elements = makeElements(
-        generalEvents!
-            .where((event) => event.name
-                .toLowerCase()
-                .contains(_searchController.text.toLowerCase()))
-            .toList(),
-        _linkController,
-        ref,
-        context);
-    if (elements.isEmpty) {
-      elements = makeElements(generalEvents, _linkController, ref, context);
+    if (generalEvents != null) {
+      elements = makeElements(
+          generalEvents
+              .where((event) => event.name
+                  .toLowerCase()
+                  .contains(_searchController.text.toLowerCase()))
+              .toList(),
+          _linkController,
+          ref,
+          context);
+      if (elements.isEmpty) {
+        elements = makeElements(generalEvents, _linkController, ref, context);
+      }
+      return eventList(
+          _searchController, _linkController, generalEvents, ref, context);
     }
+    return const Text('nothing');
     // Return a ListView widget with the items list
-    return eventList(
-        _searchController, _linkController, generalEvents, ref, context);
   }
 
   @override
