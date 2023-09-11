@@ -47,7 +47,7 @@ class BotService {
 
     for (var element in event.variants) {
       var amount = element['productVariantMaximumReservableQuantity'];
-      if (element['accessControlMemberships'].isEmpty) {
+      if (element['accessControlMemberships'] == null) {
         if (element['availability'] <
             element['productVariantMaximumReservableQuantity']) {
           amount = element['availability'];

@@ -32,7 +32,7 @@ class homeFunctions {
     final event = await BotService().getEvent(url);
     ref.watch(eventProvider.notifier).update((state) => event);
     DateTime now = DateTime.now();
-    DateTime upcoming = DateTime.parse(event.salestarts!.split(':').first);
+    DateTime upcoming = DateTime.parse(event.salestarts!);
     Duration difference = upcoming.difference(now);
     int seconds = difference.inSeconds;
     ref.watch(timeuntilsaleProvider.notifier).update((state) => seconds);
@@ -46,7 +46,7 @@ class homeFunctions {
   reserve(String url, bearer, ref) async {
     Event thisevent = await BotService().getEvent(url);
     DateTime now = DateTime.now();
-    DateTime upcoming = DateTime.parse(thisevent.salestarts!.split(':').first);
+    DateTime upcoming = DateTime.parse(thisevent.salestarts!);
     Duration difference = upcoming.difference(now);
     int seconds = difference.inSeconds;
     int time = thisevent.timeuntilsale;
@@ -74,7 +74,8 @@ class homeFunctions {
               break;
             }
           } catch (exception) {
-            debugPrint('int error');
+            debugPrint('int error at homescreenfunctions');
+            debugPrint(exception.toString());
           }
           loops++;
         } else {

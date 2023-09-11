@@ -63,7 +63,7 @@ makeElements(
                               color: Color.fromARGB(255, 255, 255, 255)),
                           child: Center(
                             child: AutoSizeText(
-                              '${element.name} | Ticket sale: ${DateFormat('dd.MM. kk:mm').format(DateTime.parse(element.salestarts!.split(':').first))}',
+                              '${element.name} | Ticket sale: ${DateFormat('dd.MM. kk:mm').format(DateTime.parse(element.salestarts!).add(Duration(hours: 3)))}',
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
